@@ -1,0 +1,353 @@
+Date : 2025-03-23 19:52:50
+Directory : f:\study\blog\social
+Total : 250 files,  25687 codes, 1008 comments, 4104 blanks, all 30799 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| TypeScript JSX     |        118 |     12,245 |        413 |      1,212 |     13,870 |
+| YAML               |          2 |      6,908 |          0 |      1,728 |      8,636 |
+| Python             |         88 |      2,231 |        166 |        794 |      3,191 |
+| TypeScript         |         19 |      1,819 |        405 |        250 |      2,474 |
+| JSON               |         11 |      1,161 |          0 |         10 |      1,171 |
+| Database           |          1 |        790 |          0 |         11 |        801 |
+| CSS                |          2 |        294 |         23 |         41 |        358 |
+| SCSS               |          2 |        103 |          1 |         18 |        122 |
+| Markdown           |          3 |         71 |          0 |         36 |        107 |
+| JSON with Comments |          2 |         47 |          0 |          2 |         49 |
+| pip requirements   |          1 |         14 |          0 |          0 |         14 |
+| JavaScript         |          1 |          4 |          0 |          2 |          6 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                  |        250 |     25,687 |      1,008 |      4,104 |     30,799 |
+| . (Files)                                                                                                          |          7 |      7,075 |          0 |      1,734 |      8,809 |
+| apps                                                                                                               |        147 |     15,289 |        827 |      1,527 |     17,643 |
+| apps\social                                                                                                        |        147 |     15,289 |        827 |      1,527 |     17,643 |
+| apps\social (Files)                                                                                                |          7 |        278 |          3 |         24 |        305 |
+| apps\social\app                                                                                                    |         29 |      1,685 |        123 |        205 |      2,013 |
+| apps\social\app (Files)                                                                                            |          6 |        405 |         25 |         57 |        487 |
+| apps\social\app\admin                                                                                              |          5 |        116 |         20 |         27 |        163 |
+| apps\social\app\admin (Files)                                                                                      |          2 |         20 |          0 |          6 |         26 |
+| apps\social\app\admin\data                                                                                         |          1 |         31 |          2 |          7 |         40 |
+| apps\social\app\admin\home                                                                                         |          1 |         35 |         16 |          7 |         58 |
+| apps\social\app\admin\post                                                                                         |          1 |         30 |          2 |          7 |         39 |
+| apps\social\app\auth                                                                                               |          2 |        114 |          6 |         12 |        132 |
+| apps\social\app\explore                                                                                            |          2 |         29 |          1 |          8 |         38 |
+| apps\social\app\friends                                                                                            |          2 |         24 |          1 |          7 |         32 |
+| apps\social\app\home                                                                                               |          2 |        432 |         52 |         42 |        526 |
+| apps\social\app\mbti                                                                                               |          2 |        174 |          6 |         12 |        192 |
+| apps\social\app\notifications                                                                                      |          2 |         29 |          1 |          8 |         38 |
+| apps\social\app\post                                                                                               |          2 |        299 |          5 |         17 |        321 |
+| apps\social\app\post (Files)                                                                                       |          1 |         13 |          0 |          3 |         16 |
+| apps\social\app\post\[id]                                                                                          |          1 |        286 |          5 |         14 |        305 |
+| apps\social\app\profile                                                                                            |          4 |         63 |          6 |         15 |         84 |
+| apps\social\app\profile (Files)                                                                                    |          2 |         20 |          1 |          7 |         28 |
+| apps\social\app\profile\[id]                                                                                       |          1 |          7 |          1 |          4 |         12 |
+| apps\social\app\profile\edit                                                                                       |          1 |         36 |          4 |          4 |         44 |
+| apps\social\components                                                                                             |         56 |      5,447 |         43 |        598 |      6,088 |
+| apps\social\components (Files)                                                                                     |          3 |        330 |          0 |          9 |        339 |
+| apps\social\components\Rich                                                                                        |          4 |        242 |         16 |         47 |        305 |
+| apps\social\components\echart                                                                                      |          3 |        275 |         13 |         30 |        318 |
+| apps\social\components\ui                                                                                          |         46 |      4,600 |         14 |        512 |      5,126 |
+| apps\social\container                                                                                              |         36 |      5,433 |        260 |        460 |      6,153 |
+| apps\social\container\admin-contanier                                                                              |          9 |      1,919 |         52 |        173 |      2,144 |
+| apps\social\container\auth-contanier                                                                               |          3 |        370 |         11 |         37 |        418 |
+| apps\social\container\chat-container                                                                               |          6 |        802 |         50 |         77 |        929 |
+| apps\social\container\explore-contanier                                                                            |          1 |        166 |          4 |         10 |        180 |
+| apps\social\container\friends-container                                                                            |          5 |        318 |          4 |         29 |        351 |
+| apps\social\container\home-contanier                                                                               |          4 |        502 |         13 |         26 |        541 |
+| apps\social\container\mibt-contanier                                                                               |          1 |        362 |          8 |         36 |        406 |
+| apps\social\container\notifications-container                                                                      |          3 |        132 |          6 |         19 |        157 |
+| apps\social\container\profile-contanier                                                                            |          4 |        862 |        112 |         53 |      1,027 |
+| apps\social\hooks                                                                                                  |          2 |         34 |          5 |         10 |         49 |
+| apps\social\http                                                                                                   |         10 |      1,410 |        343 |        184 |      1,937 |
+| apps\social\lib                                                                                                    |          3 |        191 |         28 |         25 |        244 |
+| apps\social\provider                                                                                               |          2 |         78 |         11 |          9 |         98 |
+| apps\social\public                                                                                                 |          1 |        655 |          0 |          1 |        656 |
+| apps\social\store                                                                                                  |          1 |         78 |         11 |         11 |        100 |
+| server                                                                                                             |         96 |      3,323 |        181 |        843 |      4,347 |
+| server\socket                                                                                                      |          3 |        164 |         15 |         16 |        195 |
+| server\socket (Files)                                                                                              |          2 |         94 |          0 |          2 |         96 |
+| server\socket\src                                                                                                  |          1 |         70 |         15 |         14 |         99 |
+| server\wey_backend                                                                                                 |         93 |      3,159 |        166 |        827 |      4,152 |
+| server\wey_backend (Files)                                                                                         |          5 |        905 |          1 |         18 |        924 |
+| server\wey_backend\account                                                                                         |         20 |        712 |         35 |        215 |        962 |
+| server\wey_backend\account (Files)                                                                                 |         11 |        564 |         28 |        167 |        759 |
+| server\wey_backend\account\migrations                                                                              |          9 |        148 |          7 |         48 |        203 |
+| server\wey_backend\chat                                                                                            |         12 |        143 |          5 |         69 |        217 |
+| server\wey_backend\chat (Files)                                                                                    |          9 |         95 |          3 |         55 |        153 |
+| server\wey_backend\chat\migrations                                                                                 |          3 |         48 |          2 |         14 |         64 |
+| server\wey_backend\notification                                                                                    |         13 |        134 |          6 |         52 |        192 |
+| server\wey_backend\notification (Files)                                                                            |         10 |         97 |          4 |         38 |        139 |
+| server\wey_backend\notification\migrations                                                                         |          3 |         37 |          2 |         14 |         53 |
+| server\wey_backend\post                                                                                            |         24 |        773 |         61 |        277 |      1,111 |
+| server\wey_backend\post (Files)                                                                                    |         11 |        550 |         49 |        203 |        802 |
+| server\wey_backend\post\migrations                                                                                 |         13 |        223 |         12 |         74 |        309 |
+| server\wey_backend\scripts                                                                                         |          4 |        140 |         14 |         59 |        213 |
+| server\wey_backend\search                                                                                          |          9 |         76 |         11 |         40 |        127 |
+| server\wey_backend\search (Files)                                                                                  |          8 |         76 |         11 |         39 |        126 |
+| server\wey_backend\search\migrations                                                                               |          1 |          0 |          0 |          1 |          1 |
+| server\wey_backend\wey_backend                                                                                     |          6 |        276 |         33 |         97 |        406 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                           | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| f:\study\blog\social\README.md                                                                                     | Markdown           |          7 |          0 |          2 |          9 |
+| f:\study\blog\social\apps\social\README.md                                                                         | Markdown           |         23 |          0 |         14 |         37 |
+| f:\study\blog\social\apps\social\app\admin\data\page.tsx                                                           | TypeScript JSX     |         31 |          2 |          7 |         40 |
+| f:\study\blog\social\apps\social\app\admin\home\page.tsx                                                           | TypeScript JSX     |         35 |         16 |          7 |         58 |
+| f:\study\blog\social\apps\social\app\admin\layout.tsx                                                              | TypeScript JSX     |         15 |          0 |          3 |         18 |
+| f:\study\blog\social\apps\social\app\admin\page.tsx                                                                | TypeScript JSX     |          5 |          0 |          3 |          8 |
+| f:\study\blog\social\apps\social\app\admin\post\page.tsx                                                           | TypeScript JSX     |         30 |          2 |          7 |         39 |
+| f:\study\blog\social\apps\social\app\auth\layout.tsx                                                               | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| f:\study\blog\social\apps\social\app\auth\page.tsx                                                                 | TypeScript JSX     |        100 |          6 |          9 |        115 |
+| f:\study\blog\social\apps\social\app\error.tsx                                                                     | TypeScript JSX     |         27 |          1 |          3 |         31 |
+| f:\study\blog\social\apps\social\app\explore\layout.tsx                                                            | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\explore\page.tsx                                                              | TypeScript JSX     |         16 |          1 |          5 |         22 |
+| f:\study\blog\social\apps\social\app\friends\layout.tsx                                                            | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\friends\page.tsx                                                              | TypeScript JSX     |         11 |          1 |          4 |         16 |
+| f:\study\blog\social\apps\social\app\globals.css                                                                   | CSS                |        281 |         23 |         40 |        344 |
+| f:\study\blog\social\apps\social\app\home\layout.tsx                                                               | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\home\page.tsx                                                                 | TypeScript JSX     |        419 |         52 |         39 |        510 |
+| f:\study\blog\social\apps\social\app\layout.tsx                                                                    | TypeScript JSX     |         37 |          0 |          5 |         42 |
+| f:\study\blog\social\apps\social\app\loading.tsx                                                                   | TypeScript JSX     |         30 |          0 |          2 |         32 |
+| f:\study\blog\social\apps\social\app\mbti\layout.tsx                                                               | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\mbti\page.tsx                                                                 | TypeScript JSX     |        161 |          6 |          9 |        176 |
+| f:\study\blog\social\apps\social\app\not-found.tsx                                                                 | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| f:\study\blog\social\apps\social\app\notifications\layout.tsx                                                      | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\notifications\page.tsx                                                        | TypeScript JSX     |         16 |          1 |          5 |         22 |
+| f:\study\blog\social\apps\social\app\page.tsx                                                                      | TypeScript JSX     |          6 |          1 |          4 |         11 |
+| f:\study\blog\social\apps\social\app\post\[id]\page.tsx                                                            | TypeScript JSX     |        286 |          5 |         14 |        305 |
+| f:\study\blog\social\apps\social\app\post\layout.tsx                                                               | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\profile\[id]\page.tsx                                                         | TypeScript JSX     |          7 |          1 |          4 |         12 |
+| f:\study\blog\social\apps\social\app\profile\edit\page.tsx                                                         | TypeScript JSX     |         36 |          4 |          4 |         44 |
+| f:\study\blog\social\apps\social\app\profile\layout.tsx                                                            | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| f:\study\blog\social\apps\social\app\profile\page.tsx                                                              | TypeScript JSX     |          7 |          1 |          4 |         12 |
+| f:\study\blog\social\apps\social\biome.json                                                                        | JSON               |         71 |          0 |          1 |         72 |
+| f:\study\blog\social\apps\social\components.json                                                                   | JSON               |         21 |          0 |          0 |         21 |
+| f:\study\blog\social\apps\social\components\ChatEmoji.tsx                                                          | TypeScript JSX     |         47 |          0 |          2 |         49 |
+| f:\study\blog\social\apps\social\components\PostItem.tsx                                                           | TypeScript JSX     |        270 |          0 |          6 |        276 |
+| f:\study\blog\social\apps\social\components\Rich\Render.tsx                                                        | TypeScript JSX     |         22 |          2 |          5 |         29 |
+| f:\study\blog\social\apps\social\components\Rich\Tiptap.tsx                                                        | TypeScript JSX     |        117 |         13 |         24 |        154 |
+| f:\study\blog\social\apps\social\components\Rich\render.module.scss                                                | SCSS               |         62 |          1 |         12 |         75 |
+| f:\study\blog\social\apps\social\components\Rich\tiptap.module.scss                                                | SCSS               |         41 |          0 |          6 |         47 |
+| f:\study\blog\social\apps\social\components\chat.module.css                                                        | CSS                |         13 |          0 |          1 |         14 |
+| f:\study\blog\social\apps\social\components\echart\Pie.tsx                                                         | TypeScript JSX     |        173 |         11 |         15 |        199 |
+| f:\study\blog\social\apps\social\components\echart\WordCloudClient.tsx                                             | TypeScript JSX     |         70 |          0 |          7 |         77 |
+| f:\study\blog\social\apps\social\components\echart\word.tsx                                                        | TypeScript JSX     |         32 |          2 |          8 |         42 |
+| f:\study\blog\social\apps\social\components\ui\accordion.tsx                                                       | TypeScript JSX     |         59 |          0 |          8 |         67 |
+| f:\study\blog\social\apps\social\components\ui\alert-dialog.tsx                                                    | TypeScript JSX     |        143 |          0 |         15 |        158 |
+| f:\study\blog\social\apps\social\components\ui\alert.tsx                                                           | TypeScript JSX     |         60 |          0 |          7 |         67 |
+| f:\study\blog\social\apps\social\components\ui\aspect-ratio.tsx                                                    | TypeScript JSX     |          8 |          0 |          4 |         12 |
+| f:\study\blog\social\apps\social\components\ui\avatar.tsx                                                          | TypeScript JSX     |         47 |          0 |          7 |         54 |
+| f:\study\blog\social\apps\social\components\ui\badge.tsx                                                           | TypeScript JSX     |         41 |          0 |          6 |         47 |
+| f:\study\blog\social\apps\social\components\ui\breadcrumb.tsx                                                      | TypeScript JSX     |         99 |          0 |         11 |        110 |
+| f:\study\blog\social\apps\social\components\ui\button.tsx                                                          | TypeScript JSX     |         54 |          0 |          6 |         60 |
+| f:\study\blog\social\apps\social\components\ui\calendar.tsx                                                        | TypeScript JSX     |         71 |          0 |          5 |         76 |
+| f:\study\blog\social\apps\social\components\ui\card.tsx                                                            | TypeScript JSX     |         83 |          0 |         10 |         93 |
+| f:\study\blog\social\apps\social\components\ui\carousel.tsx                                                        | TypeScript JSX     |        214 |          0 |         28 |        242 |
+| f:\study\blog\social\apps\social\components\ui\chart.tsx                                                           | TypeScript JSX     |        315 |          2 |         37 |        354 |
+| f:\study\blog\social\apps\social\components\ui\checkbox.tsx                                                        | TypeScript JSX     |         28 |          0 |          5 |         33 |
+| f:\study\blog\social\apps\social\components\ui\collapsible.tsx                                                     | TypeScript JSX     |         28 |          0 |          6 |         34 |
+| f:\study\blog\social\apps\social\components\ui\command.tsx                                                         | TypeScript JSX     |        165 |          0 |         13 |        178 |
+| f:\study\blog\social\apps\social\components\ui\context-menu.tsx                                                    | TypeScript JSX     |        234 |          0 |         19 |        253 |
+| f:\study\blog\social\apps\social\components\ui\dialog.tsx                                                          | TypeScript JSX     |        122 |          0 |         14 |        136 |
+| f:\study\blog\social\apps\social\components\ui\drawer.tsx                                                          | TypeScript JSX     |        119 |          0 |         14 |        133 |
+| f:\study\blog\social\apps\social\components\ui\dropdown-menu.tsx                                                   | TypeScript JSX     |        239 |          0 |         19 |        258 |
+| f:\study\blog\social\apps\social\components\ui\form.tsx                                                            | TypeScript JSX     |        144 |          0 |         25 |        169 |
+| f:\study\blog\social\apps\social\components\ui\hover-card.tsx                                                      | TypeScript JSX     |         38 |          0 |          7 |         45 |
+| f:\study\blog\social\apps\social\components\ui\input-otp.tsx                                                       | TypeScript JSX     |         69 |          0 |          9 |         78 |
+| f:\study\blog\social\apps\social\components\ui\input.tsx                                                           | TypeScript JSX     |         18 |          0 |          4 |         22 |
+| f:\study\blog\social\apps\social\components\ui\label.tsx                                                           | TypeScript JSX     |         20 |          0 |          5 |         25 |
+| f:\study\blog\social\apps\social\components\ui\menubar.tsx                                                         | TypeScript JSX     |        257 |          0 |         20 |        277 |
+| f:\study\blog\social\apps\social\components\ui\navigation-menu.tsx                                                 | TypeScript JSX     |        157 |          0 |         12 |        169 |
+| f:\study\blog\social\apps\social\components\ui\pagination.tsx                                                      | TypeScript JSX     |        117 |          0 |         11 |        128 |
+| f:\study\blog\social\apps\social\components\ui\popover.tsx                                                         | TypeScript JSX     |         41 |          0 |          8 |         49 |
+| f:\study\blog\social\apps\social\components\ui\progress.tsx                                                        | TypeScript JSX     |         27 |          0 |          5 |         32 |
+| f:\study\blog\social\apps\social\components\ui\radio-group.tsx                                                     | TypeScript JSX     |         40 |          0 |          6 |         46 |
+| f:\study\blog\social\apps\social\components\ui\resizable.tsx                                                       | TypeScript JSX     |         50 |          0 |          7 |         57 |
+| f:\study\blog\social\apps\social\components\ui\scroll-area.tsx                                                     | TypeScript JSX     |         53 |          0 |          6 |         59 |
+| f:\study\blog\social\apps\social\components\ui\select.tsx                                                          | TypeScript JSX     |        172 |          0 |         14 |        186 |
+| f:\study\blog\social\apps\social\components\ui\separator.tsx                                                       | TypeScript JSX     |         24 |          0 |          5 |         29 |
+| f:\study\blog\social\apps\social\components\ui\sheet.tsx                                                           | TypeScript JSX     |        126 |          0 |         14 |        140 |
+| f:\study\blog\social\apps\social\components\ui\sidebar.tsx                                                         | TypeScript JSX     |        660 |         12 |         55 |        727 |
+| f:\study\blog\social\apps\social\components\ui\skeleton.tsx                                                        | TypeScript JSX     |         11 |          0 |          3 |         14 |
+| f:\study\blog\social\apps\social\components\ui\slider.tsx                                                          | TypeScript JSX     |         58 |          0 |          6 |         64 |
+| f:\study\blog\social\apps\social\components\ui\sonner.tsx                                                          | TypeScript JSX     |         21 |          0 |          5 |         26 |
+| f:\study\blog\social\apps\social\components\ui\switch.tsx                                                          | TypeScript JSX     |         27 |          0 |          5 |         32 |
+| f:\study\blog\social\apps\social\components\ui\table.tsx                                                           | TypeScript JSX     |        105 |          0 |         12 |        117 |
+| f:\study\blog\social\apps\social\components\ui\tabs.tsx                                                            | TypeScript JSX     |         59 |          0 |          8 |         67 |
+| f:\study\blog\social\apps\social\components\ui\textarea.tsx                                                        | TypeScript JSX     |         15 |          0 |          4 |         19 |
+| f:\study\blog\social\apps\social\components\ui\toggle-group.tsx                                                    | TypeScript JSX     |         66 |          0 |          8 |         74 |
+| f:\study\blog\social\apps\social\components\ui\toggle.tsx                                                          | TypeScript JSX     |         42 |          0 |          6 |         48 |
+| f:\study\blog\social\apps\social\components\ui\tooltip.tsx                                                         | TypeScript JSX     |         54 |          0 |          8 |         62 |
+| f:\study\blog\social\apps\social\container\admin-contanier\auth-provider.tsx                                       | TypeScript JSX     |        105 |         13 |         23 |        141 |
+| f:\study\blog\social\apps\social\container\admin-contanier\create-user-modal.tsx                                   | TypeScript JSX     |        207 |          1 |         16 |        224 |
+| f:\study\blog\social\apps\social\container\admin-contanier\index.tsx                                               | TypeScript JSX     |        128 |          4 |         12 |        144 |
+| f:\study\blog\social\apps\social\container\admin-contanier\post-edit-modal.tsx                                     | TypeScript JSX     |        162 |          6 |         19 |        187 |
+| f:\study\blog\social\apps\social\container\admin-contanier\post-management.tsx                                     | TypeScript JSX     |        602 |         16 |         45 |        663 |
+| f:\study\blog\social\apps\social\container\admin-contanier\post-view-modal.tsx                                     | TypeScript JSX     |        189 |          5 |         13 |        207 |
+| f:\study\blog\social\apps\social\container\admin-contanier\user-edit-modal.tsx                                     | TypeScript JSX     |        110 |          2 |         18 |        130 |
+| f:\study\blog\social\apps\social\container\admin-contanier\user-management.tsx                                     | TypeScript JSX     |        243 |          5 |         14 |        262 |
+| f:\study\blog\social\apps\social\container\admin-contanier\user-statistics.tsx                                     | TypeScript JSX     |        173 |          0 |         13 |        186 |
+| f:\study\blog\social\apps\social\container\auth-contanier\AuthContainer.tsx                                        | TypeScript JSX     |         62 |         11 |         14 |         87 |
+| f:\study\blog\social\apps\social\container\auth-contanier\LoginForm.tsx                                            | TypeScript JSX     |        142 |          0 |         12 |        154 |
+| f:\study\blog\social\apps\social\container\auth-contanier\SignupForm.tsx                                           | TypeScript JSX     |        166 |          0 |         11 |        177 |
+| f:\study\blog\social\apps\social\container\chat-container\ChatBox.tsx                                              | TypeScript JSX     |        398 |         18 |         27 |        443 |
+| f:\study\blog\social\apps\social\container\chat-container\ChatContainer.tsx                                        | TypeScript JSX     |        102 |         10 |         15 |        127 |
+| f:\study\blog\social\apps\social\container\chat-container\ConversationItem.tsx                                     | TypeScript JSX     |         78 |          4 |         10 |         92 |
+| f:\study\blog\social\apps\social\container\chat-container\ConversationList.tsx                                     | TypeScript JSX     |        114 |          6 |          7 |        127 |
+| f:\study\blog\social\apps\social\container\chat-container\MessageInput.tsx                                         | TypeScript JSX     |        109 |         12 |         17 |        138 |
+| f:\study\blog\social\apps\social\container\chat-container\index.ts                                                 | TypeScript         |          1 |          0 |          1 |          2 |
+| f:\study\blog\social\apps\social\container\explore-contanier\SearchContainer.tsx                                   | TypeScript JSX     |        166 |          4 |         10 |        180 |
+| f:\study\blog\social\apps\social\container\friends-container\FriendRequestsDialog.tsx                              | TypeScript JSX     |        129 |          0 |          8 |        137 |
+| f:\study\blog\social\apps\social\container\friends-container\FriendSuggestions.tsx                                 | TypeScript JSX     |         84 |          0 |          7 |         91 |
+| f:\study\blog\social\apps\social\container\friends-container\FriendsContainer.tsx                                  | TypeScript JSX     |         43 |          4 |          8 |         55 |
+| f:\study\blog\social\apps\social\container\friends-container\FriendsList.tsx                                       | TypeScript JSX     |         58 |          0 |          5 |         63 |
+| f:\study\blog\social\apps\social\container\friends-container\index.tsx                                             | TypeScript JSX     |          4 |          0 |          1 |          5 |
+| f:\study\blog\social\apps\social\container\home-contanier\index.tsx                                                | TypeScript JSX     |         39 |          0 |          4 |         43 |
+| f:\study\blog\social\apps\social\container\home-contanier\nav-sidebar.tsx                                          | TypeScript JSX     |        132 |          5 |          7 |        144 |
+| f:\study\blog\social\apps\social\container\home-contanier\right-sidebar.tsx                                        | TypeScript JSX     |        167 |          5 |          7 |        179 |
+| f:\study\blog\social\apps\social\container\home-contanier\top-navbar.tsx                                           | TypeScript JSX     |        164 |          3 |          8 |        175 |
+| f:\study\blog\social\apps\social\container\mibt-contanier\MBTITest.tsx                                             | TypeScript JSX     |        362 |          8 |         36 |        406 |
+| f:\study\blog\social\apps\social\container\notifications-container\NotificationIndicator.tsx                       | TypeScript JSX     |         18 |          0 |          5 |         23 |
+| f:\study\blog\social\apps\social\container\notifications-container\NotificationsContainer.tsx                      | TypeScript JSX     |        112 |          6 |         13 |        131 |
+| f:\study\blog\social\apps\social\container\notifications-container\index.tsx                                       | TypeScript JSX     |          2 |          0 |          1 |          3 |
+| f:\study\blog\social\apps\social\container\profile-contanier\ProfileEditForm.tsx                                   | TypeScript JSX     |        161 |         23 |         14 |        198 |
+| f:\study\blog\social\apps\social\container\profile-contanier\UserAvatar.tsx                                        | TypeScript JSX     |         45 |          0 |          6 |         51 |
+| f:\study\blog\social\apps\social\container\profile-contanier\UserProfileContainer.tsx                              | TypeScript JSX     |        342 |         83 |         20 |        445 |
+| f:\study\blog\social\apps\social\container\profile-contanier\index.tsx                                             | TypeScript JSX     |        314 |          6 |         13 |        333 |
+| f:\study\blog\social\apps\social\hooks\use-echart.ts                                                               | TypeScript         |         19 |          5 |          5 |         29 |
+| f:\study\blog\social\apps\social\hooks\use-mobile.ts                                                               | TypeScript         |         15 |          0 |          5 |         20 |
+| f:\study\blog\social\apps\social\http\useAdmin.ts                                                                  | TypeScript         |        411 |         95 |         49 |        555 |
+| f:\study\blog\social\apps\social\http\useAi.ts                                                                     | TypeScript         |         84 |         19 |         11 |        114 |
+| f:\study\blog\social\apps\social\http\useAuth.ts                                                                   | TypeScript         |        113 |         43 |         18 |        174 |
+| f:\study\blog\social\apps\social\http\useChat.ts                                                                   | TypeScript         |        225 |         50 |         38 |        313 |
+| f:\study\blog\social\apps\social\http\useFriendship.ts                                                             | TypeScript         |         75 |         23 |         11 |        109 |
+| f:\study\blog\social\apps\social\http\useMibt.ts                                                                   | TypeScript         |         30 |          8 |          4 |         42 |
+| f:\study\blog\social\apps\social\http\useNotification.ts                                                           | TypeScript         |         48 |         15 |          6 |         69 |
+| f:\study\blog\social\apps\social\http\usePost.ts                                                                   | TypeScript         |        258 |         63 |         29 |        350 |
+| f:\study\blog\social\apps\social\http\useProfile.ts                                                                | TypeScript         |        111 |         18 |         12 |        141 |
+| f:\study\blog\social\apps\social\http\useSearch.ts                                                                 | TypeScript         |         55 |          9 |          6 |         70 |
+| f:\study\blog\social\apps\social\lib\http.ts                                                                       | TypeScript         |        159 |         22 |         19 |        200 |
+| f:\study\blog\social\apps\social\lib\index.ts                                                                      | TypeScript         |          1 |          0 |          0 |          1 |
+| f:\study\blog\social\apps\social\lib\utils.ts                                                                      | TypeScript         |         31 |          6 |          6 |         43 |
+| f:\study\blog\social\apps\social\next.config.ts                                                                    | TypeScript         |         35 |          3 |          5 |         43 |
+| f:\study\blog\social\apps\social\package.json                                                                      | JSON               |         97 |          0 |          1 |         98 |
+| f:\study\blog\social\apps\social\postcss.config.mjs                                                                | JavaScript         |          4 |          0 |          2 |          6 |
+| f:\study\blog\social\apps\social\provider\providers.tsx                                                            | TypeScript JSX     |         41 |          0 |          2 |         43 |
+| f:\study\blog\social\apps\social\provider\query-provide.tsx                                                        | TypeScript JSX     |         37 |         11 |          7 |         55 |
+| f:\study\blog\social\apps\social\public\MBTItest.json                                                              | JSON               |        655 |          0 |          1 |        656 |
+| f:\study\blog\social\apps\social\store\chat.ts                                                                     | TypeScript         |         78 |         11 |         11 |        100 |
+| f:\study\blog\social\apps\social\tsconfig.json                                                                     | JSON with Comments |         27 |          0 |          1 |         28 |
+| f:\study\blog\social\biome.json                                                                                    | JSON               |         71 |          0 |          1 |         72 |
+| f:\study\blog\social\package.json                                                                                  | JSON               |         48 |          0 |          1 |         49 |
+| f:\study\blog\social\pnpm-lock.yaml                                                                                | YAML               |      6,905 |          0 |      1,727 |      8,632 |
+| f:\study\blog\social\pnpm-workspace.yaml                                                                           | YAML               |          3 |          0 |          1 |          4 |
+| f:\study\blog\social\server\socket\biome.json                                                                      | JSON               |         71 |          0 |          1 |         72 |
+| f:\study\blog\social\server\socket\package.json                                                                    | JSON               |         23 |          0 |          1 |         24 |
+| f:\study\blog\social\server\socket\src\index.ts                                                                    | TypeScript         |         70 |         15 |         14 |         99 |
+| f:\study\blog\social\server\wey_backend\account\__init__.py                                                        | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\account\admin.py                                                           | Python             |         28 |          1 |          5 |         34 |
+| f:\study\blog\social\server\wey_backend\account\admin_api.py                                                       | Python             |        171 |         11 |         51 |        233 |
+| f:\study\blog\social\server\wey_backend\account\api.py                                                             | Python             |        188 |          8 |         53 |        249 |
+| f:\study\blog\social\server\wey_backend\account\apps.py                                                            | Python             |          4 |          0 |          3 |          7 |
+| f:\study\blog\social\server\wey_backend\account\forms.py                                                           | Python             |         11 |          0 |          5 |         16 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0001_initial.py                                         | Python             |         34 |          1 |          7 |         42 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0002_user_friends_friendshiprequest.py                  | Python             |         25 |          1 |          6 |         32 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0003_user_friends_count.py                              | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0004_user_posts_count.py                                | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0005_user_people_you_may_know.py                        | Python             |         13 |          1 |          6 |         20 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0006_user_bio.py                                        | Python             |         12 |          0 |          4 |         16 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0007_mibttestresult.py                                  | Python             |         28 |          1 |          6 |         35 |
+| f:\study\blog\social\server\wey_backend\account\migrations\0008_user_is_admin.py                                   | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\account\migrations\__init__.py                                             | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\account\models.py                                                          | Python             |         87 |          5 |         28 |        120 |
+| f:\study\blog\social\server\wey_backend\account\serializers.py                                                     | Python             |         35 |          0 |         10 |         45 |
+| f:\study\blog\social\server\wey_backend\account\tests.py                                                           | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\account\urls.py                                                            | Python             |         26 |          2 |          4 |         32 |
+| f:\study\blog\social\server\wey_backend\account\views.py                                                           | Python             |         13 |          0 |          5 |         18 |
+| f:\study\blog\social\server\wey_backend\biome.json                                                                 | JSON               |         71 |          0 |          1 |         72 |
+| f:\study\blog\social\server\wey_backend\chat\__init__.py                                                           | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\chat\admin.py                                                              | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\chat\api.py                                                                | Python             |         41 |          0 |         21 |         62 |
+| f:\study\blog\social\server\wey_backend\chat\apps.py                                                               | Python             |          4 |          0 |          3 |          7 |
+| f:\study\blog\social\server\wey_backend\chat\migrations\0001_initial.py                                            | Python             |         30 |          1 |          7 |         38 |
+| f:\study\blog\social\server\wey_backend\chat\migrations\0002_alter_conversation_id_alter_conversationmessage_id.py | Python             |         18 |          1 |          6 |         25 |
+| f:\study\blog\social\server\wey_backend\chat\migrations\__init__.py                                                | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\chat\models.py                                                             | Python             |         20 |          0 |          8 |         28 |
+| f:\study\blog\social\server\wey_backend\chat\serializers.py                                                        | Python             |         19 |          0 |         13 |         32 |
+| f:\study\blog\social\server\wey_backend\chat\tests.py                                                              | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\chat\urls.py                                                               | Python             |          8 |          0 |          3 |         11 |
+| f:\study\blog\social\server\wey_backend\chat\views.py                                                              | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\db.sqlite3                                                                 | Database           |        790 |          0 |         11 |        801 |
+| f:\study\blog\social\server\wey_backend\manage.py                                                                  | Python             |         18 |          1 |          5 |         24 |
+| f:\study\blog\social\server\wey_backend\notification\__init__.py                                                   | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\notification\admin.py                                                      | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\notification\api.py                                                        | Python             |         15 |          0 |          8 |         23 |
+| f:\study\blog\social\server\wey_backend\notification\apps.py                                                       | Python             |          4 |          0 |          3 |          7 |
+| f:\study\blog\social\server\wey_backend\notification\migrations\0001_initial.py                                    | Python             |         25 |          1 |          7 |         33 |
+| f:\study\blog\social\server\wey_backend\notification\migrations\0002_alter_notification_type_of_notification.py    | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\notification\migrations\__init__.py                                        | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\notification\models.py                                                     | Python             |         25 |          0 |          6 |         31 |
+| f:\study\blog\social\server\wey_backend\notification\serializers.py                                                | Python             |          7 |          0 |          4 |         11 |
+| f:\study\blog\social\server\wey_backend\notification\tests.py                                                      | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\notification\urls.py                                                       | Python             |          6 |          0 |          3 |          9 |
+| f:\study\blog\social\server\wey_backend\notification\utils.py                                                      | Python             |         37 |          1 |          7 |         45 |
+| f:\study\blog\social\server\wey_backend\notification\views.py                                                      | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\package.json                                                               | JSON               |         12 |          0 |          1 |         13 |
+| f:\study\blog\social\server\wey_backend\post\__init__.py                                                           | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\post\admin.py                                                              | Python             |          5 |          0 |          3 |          8 |
+| f:\study\blog\social\server\wey_backend\post\admin_api.py                                                          | Python             |        199 |         25 |         60 |        284 |
+| f:\study\blog\social\server\wey_backend\post\api.py                                                                | Python             |        195 |         22 |         76 |        293 |
+| f:\study\blog\social\server\wey_backend\post\apps.py                                                               | Python             |          4 |          0 |          3 |          7 |
+| f:\study\blog\social\server\wey_backend\post\forms.py                                                              | Python             |         10 |          0 |          5 |         15 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0001_initial.py                                            | Python             |         29 |          1 |          7 |         37 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0002_alter_post_attachments.py                             | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0003_alter_post_options.py                                 | Python             |         11 |          1 |          6 |         18 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0004_post_likes_count_like_post_likes.py                   | Python             |         29 |          1 |          6 |         36 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0005_post_comments_count_comment_post_comments.py          | Python             |         30 |          1 |          6 |         37 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0006_alter_comment_options.py                              | Python             |         11 |          1 |          6 |         18 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0007_trend.py                                              | Python             |         15 |          1 |          6 |         22 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0008_post_is_private.py                                    | Python             |         12 |          1 |          6 |         19 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0009_post_reported_by_users.py                             | Python             |         14 |          1 |          6 |         21 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0010_comment_likes_comment_likes_count.py                  | Python             |         17 |          1 |          6 |         24 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0011_sensitiveword.py                                      | Python             |         15 |          1 |          6 |         22 |
+| f:\study\blog\social\server\wey_backend\post\migrations\0012_postreport_delete_sensitiveword.py                    | Python             |         28 |          1 |          6 |         35 |
+| f:\study\blog\social\server\wey_backend\post\migrations\__init__.py                                                | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\post\models.py                                                             | Python             |         59 |          0 |         27 |         86 |
+| f:\study\blog\social\server\wey_backend\post\serializers.py                                                        | Python             |         53 |          0 |         21 |         74 |
+| f:\study\blog\social\server\wey_backend\post\tests.py                                                              | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\post\urls.py                                                               | Python             |         24 |          1 |          4 |         29 |
+| f:\study\blog\social\server\wey_backend\post\views.py                                                              | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\requirements.txt                                                           | pip requirements   |         14 |          0 |          0 |         14 |
+| f:\study\blog\social\server\wey_backend\scripts\README.md                                                          | Markdown           |         41 |          0 |         20 |         61 |
+| f:\study\blog\social\server\wey_backend\scripts\generate_friend_suggestions.py                                     | Python             |         20 |          2 |         13 |         35 |
+| f:\study\blog\social\server\wey_backend\scripts\generate_trends.py                                                 | Python             |         30 |          5 |         14 |         49 |
+| f:\study\blog\social\server\wey_backend\scripts\schedule_tasks.py                                                  | Python             |         49 |          7 |         12 |         68 |
+| f:\study\blog\social\server\wey_backend\search\__init__.py                                                         | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\search\admin.py                                                            | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\search\api.py                                                              | Python             |         62 |          7 |         24 |         93 |
+| f:\study\blog\social\server\wey_backend\search\apps.py                                                             | Python             |          4 |          0 |          3 |          7 |
+| f:\study\blog\social\server\wey_backend\search\migrations\__init__.py                                              | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\search\models.py                                                           | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\search\tests.py                                                            | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\search\urls.py                                                             | Python             |          6 |          0 |          3 |          9 |
+| f:\study\blog\social\server\wey_backend\search\views.py                                                            | Python             |          1 |          1 |          2 |          4 |
+| f:\study\blog\social\server\wey_backend\wey_backend\__init__.py                                                    | Python             |          0 |          0 |          1 |          1 |
+| f:\study\blog\social\server\wey_backend\wey_backend\asgi.py                                                        | Python             |         10 |          0 |          7 |         17 |
+| f:\study\blog\social\server\wey_backend\wey_backend\settingprod.py                                                 | Python             |         99 |         16 |         38 |        153 |
+| f:\study\blog\social\server\wey_backend\wey_backend\settings.py                                                    | Python             |        125 |         16 |         40 |        181 |
+| f:\study\blog\social\server\wey_backend\wey_backend\urls.py                                                        | Python             |         32 |          1 |          4 |         37 |
+| f:\study\blog\social\server\wey_backend\wey_backend\wsgi.py                                                        | Python             |         10 |          0 |          7 |         17 |
+| f:\study\blog\social\tsconfig.json                                                                                 | JSON with Comments |         20 |          0 |          1 |         21 |
+| f:\study\blog\social\turbo.json                                                                                    | JSON               |         21 |          0 |          1 |         22 |
+| Total                                                                                                              |                    |     25,687 |      1,008 |      4,104 |     30,799 |
++--------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

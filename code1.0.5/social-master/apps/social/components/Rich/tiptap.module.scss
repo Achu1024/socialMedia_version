@@ -1,0 +1,51 @@
+.tiptapEditorContainer{
+  :global(.hashtag-highlight) {
+    background-color: transparent;
+    color: #118d3e;
+    font-weight: 600;
+    padding: 0 2px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    position: relative;
+    
+    &:hover {
+      color: #0d6d2e;
+      text-decoration: underline;
+    }
+  }
+
+  :global(.ProseMirror) {
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.75rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  :global(.ProseMirror:focus) {
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
+  }
+  
+  :global(.ProseMirror p) {
+    margin: 0.5em 0;
+  }
+  
+  :global(.ProseMirror p.is-editor-empty:first-child::before) {
+    color: hsl(var(--muted-foreground));
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    font-style: italic;
+    opacity: 0.75;
+  }
+}

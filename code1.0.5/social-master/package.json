@@ -1,0 +1,50 @@
+{
+  "name": "social-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:social": "turbo dev --filter=social --filter=social-socket --filter=wey_backend",
+    "build:social": "turbo build --filter=social --filter=social-socket --filter=wey_backend",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint:all": "turbo lint",
+    "lint": "biome check --fix --unsafe && biome lint .&& pnpm run lint:all"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc,vue,scss,css,html}": [
+      "biome check --fix --unsafe",
+      "biome check --write --no-errors-on-unmatched",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --unsafe --no-errors-on-unmatched",
+      "biome lint --write --no-errors-on-unmatched"
+    ],
+    "*": [
+      "biome check --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
+  },
+  "devDependencies": {
+    "biome": "^0.3.3",
+    "lint-staged": "^15.5.0",
+    "simple-git-hooks": "^2.11.1",
+    "stylelint": "^16.16.0",
+    "turbo": "^2.4.4",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "core-js",
+      "simple-git-hooks"
+    ],
+    "onlyBuiltDependencies": [
+      "simple-git-hooks"
+    ]
+  }
+}

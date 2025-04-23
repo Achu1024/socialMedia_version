@@ -1,0 +1,74 @@
+.tiptapRender {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* 确保内容样式与编辑器隔离 */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 0.75rem 0.5rem;
+  }
+
+  p {
+    margin: 0.5em 0;
+    line-height: 1.6;
+  }
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+  
+  a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: hsl(var(--primary) / 0.8);
+    }
+  }
+  
+  code {
+    background-color: hsl(var(--muted) / 0.7);
+    border-radius: 0.25rem;
+    padding: 0.15em 0.3em;
+    font-size: 0.9em;
+    font-family: 'JetBrainsMono', monospace;
+  }
+}
+
+.tiptapRenderContainer {
+  :global(.hashtag-highlight) {
+    background-color: transparent;
+    color: #118d3e;
+    font-weight: 600;
+    padding: 0 2px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: #0d6d2e;
+      text-decoration: underline;
+    }
+  }
+
+  :global(.ProseMirror) {
+    padding: 0.5rem 0;
+    border-radius: 0.375rem;
+    outline: none;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  :global(.ProseMirror:focus) {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  }
+}

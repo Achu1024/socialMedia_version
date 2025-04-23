@@ -1,0 +1,13 @@
+.emojiPicker {
+  & em-emoji-picker {
+    border: none !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    height: 46dvh !important;
+  }
+  & section {
+    width: 100% !important;
+  }
+}
