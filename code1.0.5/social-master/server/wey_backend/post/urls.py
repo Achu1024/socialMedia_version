@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/posts/<uuid:post_id>/update/', admin_api.admin_update_post, name='admin_update_post'),
     path('admin/posts/<uuid:post_id>/delete/', admin_api.admin_delete_post, name='admin_delete_post'),
     path('admin/posts/<uuid:post_id>/clear-reports/', admin_api.admin_clear_post_reports, name='admin_clear_post_reports'),
+    path('admin/posts/<uuid:post_id>/comments/<uuid:comment_id>/delete/', admin_api.admin_delete_comment, name='admin_delete_comment'),
     path('admin/trends/<str:hashtag>/delete/', admin_api.admin_delete_trend, name='admin_delete_trend'),
     path('admin/trends/create/', admin_api.admin_create_trend, name='admin_create_trend'),
 ]

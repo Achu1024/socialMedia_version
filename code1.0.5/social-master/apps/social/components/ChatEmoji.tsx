@@ -23,7 +23,6 @@ export default function ChatEmoji({
             data={data}
             onEmojiSelect={(e: any) => onClick(e)}
             theme='light'
-            locale='zh'
             custom={[
               {
                 styles: {

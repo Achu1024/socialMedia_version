@@ -10,8 +10,8 @@ interface NotificationMessage {
 
 interface ChatStore {
   // ai
-  themeList: Set<string>;
-  setThemeList: (strings: string) => void;
+  themeList: string[];
+  setThemeList: (theme: string) => void;
   // 未读消息计数，按会话ID存储
   unreadMessages: Record<string, number>;
   // 通知消息，按会话ID存储最新消息
@@ -33,12 +33,16 @@ interface ChatStore {
 export const useChatStore = create<ChatStore>()(
   persist(
     (set) => ({
-      themeList: new Set(),
+      themeList: [],
       unreadMessages: {},
       notifications: {},
       activeConversationId: null,
-      setThemeList: (string) => {
-        set((state) => ({ themeList: state.themeList.add(string) }));
+      setThemeList: (theme) => {
+        set((state) => ({ 
+          themeList: state.themeList.includes(theme) 
+            ? state.themeList 
+            : [...state.themeList, theme] 
+        }));
       },
       addUnreadMessage: (conversationId, message, sendId) =>
         set((state) => {
@@ -99,6 +103,7 @@ export const useChatStore = create<ChatStore>()(
       // 只持久化未读消息数量，不持久化通知内容
       partialize: (state) => ({
         unreadMessages: state.unreadMessages,
+        themeList: state.themeList,
       }),
     }
   )

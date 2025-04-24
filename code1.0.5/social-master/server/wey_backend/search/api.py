@@ -58,10 +58,10 @@ def search_posts_paginated(request):
         page = 1
         page_size = 10
     
-    # 仅使用当前用户ID，移除好友ID的收集
+    # 收集当前用户的id，用于搜索自己的私密帖子
     user_id = request.user.id
 
-    # 修改搜索逻辑：公开帖子或用户自己的私密帖子
+    # 过滤出公开帖子或用户自己的私密帖子
     posts = Post.objects.filter(
         Q(body__icontains=query, is_private=False) | 
         Q(created_by_id=user_id, body__icontains=query)

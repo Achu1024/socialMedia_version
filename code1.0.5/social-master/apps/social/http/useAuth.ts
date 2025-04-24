@@ -19,6 +19,18 @@ interface SignupCredentials {
   name: string;
   password1: string;
   password2: string;
+  is_verified?: boolean;
+}
+
+// 新增发送验证码的接口
+interface SendEmailCodeParams {
+  email: string;
+}
+
+// 新增验证码验证的接口
+interface VerifyEmailCodeParams {
+  email: string;
+  code: string;
 }
 
 interface Profile {
@@ -45,6 +57,58 @@ const saveTokens = (tokens: TokenResponse) => {
 export const clearTokens = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
+};
+
+/**
+ * ### 发送邮箱验证码
+ * @returns 发送验证码的mutation函数和状态
+ */
+export const useSendEmailCode = () => {
+  return useMutation({
+    mutationFn: async (params: SendEmailCodeParams) => {
+      const response = await post<{ success: boolean; message: string }>(
+        '/send-email-code/',
+        params
+      );
+      return response;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message || '验证码已发送，请查收邮件');
+      } else {
+        toast.error(data.message || '发送验证码失败');
+      }
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || '发送验证码失败，请稍后重试');
+    },
+  });
+};
+
+/**
+ * ### 验证邮箱验证码
+ * @returns 验证验证码的mutation函数和状态
+ */
+export const useVerifyEmailCode = () => {
+  return useMutation({
+    mutationFn: async (params: VerifyEmailCodeParams) => {
+      const response = await post<{ success: boolean; message: string; verified: boolean }>(
+        '/verify-email-code/',
+        params
+      );
+      return response;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message || '验证码验证成功');
+      } else {
+        toast.error(data.message || '验证码验证失败');
+      }
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || '验证码验证失败，请稍后重试');
+    },
+  });
 };
 
 /**
@@ -92,6 +156,7 @@ export const useSignup = () => {
       // 显示错误提示
       const errorMessage =
         error.response?.data?.detail ||
+        error.response?.data?.message ||
         (error.response?.data &&
           Object.values(
             error.response?.data as Record<string, string[]>

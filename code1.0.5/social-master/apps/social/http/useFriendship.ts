@@ -18,6 +18,9 @@ export interface User {
 export interface FriendshipRequest {
   id: string;
   created_by: User;
+  created_at: string;
+  status: string;
+  message?: string;
 }
 
 // 好友列表响应类型

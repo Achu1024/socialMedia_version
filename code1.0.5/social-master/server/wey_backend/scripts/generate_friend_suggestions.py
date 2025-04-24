@@ -25,7 +25,7 @@ for user in users:
     
     print('寻找推荐好友:', user)
     
-    # 基于共同好友的推荐
+    # 基于共同好友和互动的推荐
     friends_of_friends = Counter()
     
     for friend in user.friends.all():
@@ -57,7 +57,7 @@ for user in users:
             if post_author not in user.friends.all() and post_author != user:
                 friends_of_friends[post_author] += 3  # 评论互动权重为3
     
-    # 将推荐好友按权重排序并添加到推荐列表（最多10个）
+    # 将推荐好友按权重排序添加到推荐列表
     for suggested_friend, weight in friends_of_friends.most_common(10):
         user.people_you_may_know.add(suggested_friend)
         print(f'推荐好友: {suggested_friend}, 权重: {weight}')

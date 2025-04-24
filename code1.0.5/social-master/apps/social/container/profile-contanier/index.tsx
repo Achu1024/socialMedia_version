@@ -17,12 +17,12 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useProfile } from '@/http/useAuth';
-import { useUserLikes, useUserProfile } from '@/http/useProfile';
+import { useUserLikes, useUserProfile, useUpdateProfile } from '@/http/useProfile';
 import { personalityLabels } from '@/lib/utils';
-import { Loader2, Lock, Unlock, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Lock, Unlock, Eye, EyeOff, Camera } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UserAvatar } from './UserAvatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -35,6 +35,7 @@ import { toast } from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { put } from '@/lib/http';
+import { useRouter } from 'next/navigation';
 
 export { ProfileEditForm } from './ProfileEditForm';
 
@@ -46,6 +47,62 @@ export const ProfileContainer = () => {
   const userPosts = useUserProfile(userId || profile?.id);
   const userLikes = useUserLikes(userId || profile?.id);
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const updateProfile = useUpdateProfile();
+  const [editMode, setEditMode] = useState(false);
+  const [editedName, setEditedName] = useState("");
+  const [editedBio, setEditedBio] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 初始化编辑数据
+  useEffect(() => {
+    if (profile) {
+      setEditedName(profile.name);
+      setEditedBio(profile.bio || "");
+    }
+  }, [profile]);
+
+  // 处理文件选择
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setAvatarFile(e.target.files[0]);
+    }
+  };
+
+  // 处理头像点击
+  const handleAvatarClick = () => {
+    if (editMode) {
+      // 直接触发文件选择
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    }
+  };
+
+  // 处理保存个人资料
+  const handleSaveProfile = () => {
+    if (!profile) return;
+    
+    updateProfile.mutate(
+      {
+        name: editedName,
+        bio: editedBio,
+        avatar: avatarFile || undefined
+      },
+      {
+        onSuccess: () => {
+          setEditMode(false);
+          setAvatarFile(null);
+          toast.success("个人资料已更新");
+          queryClient.invalidateQueries({ queryKey: ['profile'] });
+        },
+        onError: (error) => {
+          toast.error("更新失败，请稍后重试");
+        }
+      }
+    );
+  };
 
   // 切换帖子可见性的mutation
   const togglePostVisibility = useMutation({
@@ -96,14 +153,44 @@ export const ProfileContainer = () => {
         />
 
         <div className='absolute -bottom-16 left-4 sm:left-8'>
-          <UserAvatar src={profile.avatar} alt={profile.name} size='lg' />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            className="hidden"
+          />
+          <div 
+            className={editMode ? 'relative cursor-pointer group' : ''} 
+            onClick={editMode ? handleAvatarClick : undefined}
+          >
+            <UserAvatar 
+              src={avatarFile ? URL.createObjectURL(avatarFile) : profile.avatar} 
+              alt={profile.name} 
+              size='lg'
+            />
+            {editMode && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <Camera className="w-6 h-6 text-white" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {/* 个人信息 */}
       <div className='px-4 sm:px-8 mt-20'>
         <div className='flex justify-between items-start mb-4'>
           <div>
-            <h1 className='text-2xl font-bold'>{profile.name}</h1>
+            {editMode ? (
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+                className="text-2xl font-bold bg-transparent border-b border-gray-300 focus:outline-none focus:border-primary mb-2 w-full"
+              />
+            ) : (
+              <h1 className='text-2xl font-bold'>{profile.name}</h1>
+            )}
             <p className='text-muted-foreground'>{profile.email}</p>
             {profile.mbti_result && (
               <div className='mt-2 inline-flex items-center px-3 py-1 rounded-full text-sm bg-primary/10 text-primary'>
@@ -118,14 +205,66 @@ export const ProfileContainer = () => {
               </div>
             )}
           </div>
-          <Button variant='outline' className='rounded-full'>
-            <Link href='/profile/edit'>编辑个人资料</Link>
-          </Button>
+          <div className='flex space-x-2'>
+            {editMode ? (
+              <>
+                <Button 
+                  variant='outline' 
+                  className='rounded-full'
+                  onClick={() => {
+                    setEditMode(false);
+                    if (profile) {
+                      setEditedName(profile.name);
+                      setEditedBio(profile.bio || "");
+                    }
+                  }}
+                >
+                  取消
+                </Button>
+                <Button 
+                  variant='default' 
+                  className='rounded-full'
+                  onClick={handleSaveProfile}
+                  disabled={updateProfile.isPending}
+                >
+                  {updateProfile.isPending ? "保存中..." : "保存资料"}
+                </Button>
+              </>
+            ) : (
+              <>
+                {/* <Button 
+                  variant='default' 
+                  className='rounded-full'
+                  onClick={() => {
+                    router.push('/profile/edit');
+                  }}
+                >
+                  编辑个人资料
+                </Button> */}
+                <Button 
+                  variant='outline' 
+                  className='rounded-full'
+                  onClick={() => setEditMode(true)}
+                >
+                  快速编辑
+                </Button>
+              </>
+            )}
+          </div>
         </div>
         {/* 个人简介 */}
-        <p className='text-foreground/90 mb-6'>
-          {profile.bio || '这位用户很懒，还没有填写个人简介'}
-        </p>
+        {editMode ? (
+          <textarea
+            value={editedBio}
+            onChange={(e) => setEditedBio(e.target.value)}
+            className="text-foreground/90 mb-6 w-full h-24 bg-transparent border border-gray-300 rounded-md p-2 focus:outline-none focus:border-primary"
+            placeholder="这位用户很懒，还没有填写个人简介"
+          />
+        ) : (
+          <p className='text-foreground/90 mb-6'>
+            {profile.bio || '这位用户很懒，还没有填写个人简介'}
+          </p>
+        )}
 
         {/* MBTI测试结果 */}
         {profile.mbti_result ? (

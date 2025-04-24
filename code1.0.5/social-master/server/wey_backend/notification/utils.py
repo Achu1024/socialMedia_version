@@ -34,6 +34,11 @@ def create_notification(request, type_of_notification, post_id=None, friendreque
         created_for = friendrequest.created_by
         body = f'{request.user.name} 拒绝了你的好友请求！'
 
+    # 检查是否是自己给自己发通知，如果是则不创建通知
+    if created_for and created_for.id == request.user.id:
+        # 自己的操作不需要通知自己
+        return None
+
     notification = Notification.objects.create(
         body=body,
         type_of_notification=type_of_notification,

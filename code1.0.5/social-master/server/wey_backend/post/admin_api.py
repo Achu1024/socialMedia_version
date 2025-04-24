@@ -347,3 +347,33 @@ def admin_create_trend(request):
             'occurences': trend.occurences
         }
     }, status=201 if created else 200) 
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminPermission])
+def admin_delete_comment(request, post_id, comment_id):
+    """管理员删除帖子的评论"""
+    post = get_object_or_404(Post, id=post_id)
+    comment = get_object_or_404(Comment, id=comment_id)
+    
+    # 确保要删除的评论属于指定的帖子
+    if comment not in post.comments.all():
+        return JsonResponse({
+            'success': False,
+            'message': '评论不属于指定帖子'
+        }, status=400)
+    
+    # 从帖子的评论中移除该评论
+    post.comments.remove(comment)
+    
+    # 更新帖子的评论计数
+    post.comments_count = post.comments.count()
+    post.save()
+    
+    # 删除评论
+    comment.delete()
+    
+    return JsonResponse({
+        'success': True,
+        'message': '评论已成功删除'
+    }) 

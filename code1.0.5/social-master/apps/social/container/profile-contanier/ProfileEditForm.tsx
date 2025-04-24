@@ -38,7 +38,7 @@ interface ProfileEditFormProps {
 
 export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(true);
   const router = useRouter();
   const updateProfile = useUpdateProfile();
   const changePassword = useChangePassword();
@@ -65,7 +65,7 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      // 如果有修改密码的数据，先处理密码修改
+      // 如果有修改密码的数据，处理密码修改
       if (data.oldPassword && data.newPassword) {
         try {
           await changePassword.mutateAsync({
@@ -78,20 +78,6 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
           return;
         }
       }
-
-      // 处理个人资料更新
-      updateProfile.mutate(
-        {
-          ...data,
-          avatar: avatarFile || undefined,
-        },
-        {
-          onSuccess: () => {
-            toast.success('更新成功');
-            router.push('/profile');
-          },
-        }
-      );
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -103,89 +89,22 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
     <div className='max-w-2xl mx-auto'>
       <div className='relative w-32 h-32 mx-auto group'>
         <Image
-          src={avatarFile ? URL.createObjectURL(avatarFile) : avatarUrl}
+          src={avatarUrl}
           alt={defaultValues?.name || '用户头像'}
           fill
-          className='object-cover rounded-full cursor-pointer'
+          className='object-cover rounded-full'
           sizes='(max-width: 128px) 100vw, 128px'
         />
-        <div
-          onClick={() => ref.current?.click()}
-          className='absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity'
-        >
-          <Camera className='w-6 h-6 text-white' />
-        </div>
       </div>
 
-      <input
-        type='file'
-        id='avatar-input'
-        className='hidden'
-        accept='image/*'
-        onChange={handleAvatarChange}
-        ref={ref}
-      />
       <ScrollArea>
         <form onSubmit={form.handleSubmit(onSubmit)} className='mt-6 px-8'>
           <div className='space-y-6'>
-            <Label
-              htmlFor='name'
-              className=' bg-background px-4 text-xs text-muted-foreground flex items-center gap-1 border-r border-gray-200 dark:border-gray-800'
-            >
-              <User2 className='w-3 h-3' />
-              <p className='whitespace-nowrap'>名字</p>
-            </Label>
-            <div className='flex items-center gap-2 border  border-gray-200 dark:border-gray-800 rounded-2xl px-2 focus-within:border-blue-500 transition-all hover:border-blue-500/50'>
-              <Input
-                id='name'
-                {...form.register('name')}
-                placeholder='请输入你的名字'
-                className='border-0 p-2 text-lg focus-visible:ring-0 placeholder:text-muted-foreground/50'
-              />
-              {form.formState.errors.name && (
-                <p className='text-sm text-red-500 mt-1 flex items-center gap-1'>
-                  <span className='inline-block w-1 h-1 rounded-full bg-red-500' />
-                  {form.formState.errors.name.message}
-                </p>
-              )}
-            </div>
-
-            <Label
-              htmlFor='bio'
-              className='bg-background px-2 text-xs text-muted-foreground flex items-center gap-1 border-r border-gray-200 dark:border-gray-800'
-            >
-              <FileText className='w-3 h-3' />
-              <p className='whitespace-nowrap'>个人简介</p>
-            </Label>
-            <div className=' flex items-center gap-2 border border-gray-200 dark:border-gray-800 rounded-2xl px-2 focus-within:border-blue-500 transition-all hover:border-blue-500/50'>
-              <Textarea
-                id='bio'
-                {...form.register('bio')}
-                placeholder='介绍一下你自己'
-                className='min-h-[120px] border-0 p-2 text-lg focus-visible:ring-0 placeholder:text-muted-foreground/50 resize-none'
-              />
-              {form.formState.errors.bio && (
-                <p className='text-sm text-red-500 mt-1 flex items-center gap-1'>
-                  <span className='inline-block w-1 h-1 rounded-full bg-red-500' />
-                  {form.formState.errors.bio.message}
-                </p>
-              )}
-            </div>
-
-            <div className='border-t border-gray-200 dark:border-gray-800 pt-6 mt-6'>
+            <div className='border-gray-200 dark:border-gray-800 pt-6 mt-6'>
               <div className='flex items-center justify-between mb-4'>
                 <h3 className='text-lg font-medium'>修改密码</h3>
-                <Button
-                  type='button'
-                  variant='ghost'
-                  onClick={() => setIsChangingPassword(!isChangingPassword)}
-                  className='text-sm text-purple hover:text-purple-dark'
-                >
-                  {isChangingPassword ? '收起' : '修改密码'}
-                </Button>
               </div>
 
-              {isChangingPassword && (
                 <div className='space-y-4'>
                   <div className='flex items-center gap-2 border border-gray-200 dark:border-gray-800 rounded-2xl px-2 focus-within:border-blue-500 transition-all hover:border-blue-500/50'>
                     <Input
@@ -232,7 +151,6 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
                     </p>
                   )}
                 </div>
-              )}
             </div>
           </div>
 
@@ -243,13 +161,13 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
               </Button>
               <Button
                 type='submit'
-                disabled={updateProfile.isPending || changePassword.isPending}
+                disabled={changePassword.isPending}
                 className='flex-1 text-white font-medium'
               >
-                {(updateProfile.isPending || changePassword.isPending) ? (
+                {changePassword.isPending ? (
                   <>
-                    <Loader2 className='w-4 h-4 mr-2 animate-spin' />
-                    保存中...
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    保存中
                   </>
                 ) : (
                   '保存修改'
@@ -258,7 +176,6 @@ export const ProfileEditForm = ({ defaultValues }: ProfileEditFormProps) => {
             </section>
           </div>
         </form>
-        
       </ScrollArea>
     </div>
   );

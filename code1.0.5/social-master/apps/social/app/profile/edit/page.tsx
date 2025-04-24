@@ -23,7 +23,7 @@ const ProfileEditPage = () => {
       <div className='relative'>
         <div className='max-w-4xl mx-auto px-4'>
           <header className='flex items-center justify-between'>
-            <h1 className='text-2xl font-bold text-white pt-8 pb-42' />
+            <h1 className='text-2xl font-bold text-white pt-8 pb-42'>修改密码</h1>
           </header>
           {isLoading ? (
             <div className='flex items-center justify-center h-32'>

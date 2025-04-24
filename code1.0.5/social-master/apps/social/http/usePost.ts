@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { del, get, post, put } from '@/lib/http';
+import { updateSearchPostsLikeStatus } from './useSearch';
 
 export interface Comment {
   id: string;
@@ -20,7 +21,7 @@ export interface Post {
   is_private: boolean;
   likes_count: number;
   comments_count: number;
-  is_liked: boolean;
+  islike: boolean;
   created_by: {
     id: string;
     name: string;
@@ -124,15 +125,185 @@ export const useLikePost = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    // 使用mutationKey跟踪每个帖子的点赞状态
+    mutationKey: ['like', postId],
     mutationFn: async () => {
+      console.log(`发送点赞请求: ${postId}`);
+      
+      // 获取最新的点赞状态用于请求
+      const latestPostData = queryClient.getQueryData<{ post: Post }>(['post', postId]);
+      const latestPostsData = queryClient.getQueryData<Post[]>(['posts']);
+      let currentLikeState = false;
+      
+      // 尝试获取最新状态
+      if (latestPostData?.post) {
+        currentLikeState = latestPostData.post.islike;
+      } else if (latestPostsData) {
+        const post = latestPostsData.find(p => p.id === postId);
+        if (post) {
+          currentLikeState = post.islike;
+        }
+      }
+      
+      console.log(`当前点赞状态(发送请求前): ${currentLikeState}`);
+      
       const response = await post<Post>(`/posts/${postId}/like/`);
-      return response;
+      console.log('点赞API响应:', response);
+      return {
+        response,
+        previousState: currentLikeState
+      };
+    },
+    onMutate: async () => {
+      // 取消任何正在进行的重新获取
+      await queryClient.cancelQueries({ queryKey: ['posts'] });
+      await queryClient.cancelQueries({ queryKey: ['post', postId] });
+      await queryClient.cancelQueries({ queryKey: ['search_posts_paginated'] });
+      
+      // 取消用户点赞列表的查询
+      const profile = queryClient.getQueryData<any>(['profile']);
+      const userId = profile?.id;
+      if (userId) {
+        await queryClient.cancelQueries({ queryKey: ['userLikes', userId.toString()] });
+      }
+
+      // 获取当前数据的快照
+      const previousPosts = queryClient.getQueryData<Post[]>(['posts']);
+      const previousPost = queryClient.getQueryData<{ post: Post }>(['post', postId]);
+      const previousSearchPosts = queryClient.getQueryData(['search_posts_paginated']);
+      const previousUserLikes = userId 
+        ? queryClient.getQueryData<Post[]>(['userLikes', userId.toString()]) 
+        : undefined;
+      
+      // 获取当前帖子的点赞状态
+      let isLiked = false;
+      let postToUpdate = null;
+      
+      // 尝试从详情页获取状态
+      if (previousPost?.post) {
+        isLiked = !previousPost.post.islike; // 取反，因为我们要切换状态
+        postToUpdate = previousPost.post;
+        console.log(`从详情页获取点赞状态: ${previousPost.post.islike} -> ${isLiked}`);
+      } 
+      // 尝试从列表页获取状态
+      else if (previousPosts) {
+        const post = previousPosts.find(p => p.id === postId);
+        if (post) {
+          isLiked = !post.islike; // 取反，因为我们要切换状态
+          postToUpdate = post;
+          console.log(`从列表页获取点赞状态: ${post.islike} -> ${isLiked}`);
+        }
+      }
+      
+      if (!postToUpdate) {
+        console.log('无法找到帖子数据');
+        return { previousPosts, previousPost, previousSearchPosts, previousUserLikes };
+      }
+
+      // 更新帖子列表中的点赞状态
+      queryClient.setQueryData<Post[]>(['posts'], (old) => {
+        if (!old) return old;
+        console.log('更新前的帖子列表:', old);
+        const updated = old.map((post) => {
+          if (post.id === postId) {
+            console.log(`帖子 ${postId} 点赞状态更新: ${post.islike} -> ${isLiked}`);
+            return {
+              ...post,
+              islike: isLiked,
+              likes_count: isLiked ? post.likes_count + 1 : Math.max(0, post.likes_count - 1),
+            };
+          }
+          return post;
+        });
+        console.log('更新后的帖子列表:', updated);
+        return updated;
+      });
+
+      // 更新帖子详情中的点赞状态
+      queryClient.setQueryData<{ post: Post }>(['post', postId], (old) => {
+        if (!old) return old;
+        console.log(`帖子详情点赞状态更新: ${old.post.islike} -> ${isLiked}`);
+        return {
+          post: {
+            ...old.post,
+            islike: isLiked,
+            likes_count: isLiked ? old.post.likes_count + 1 : Math.max(0, old.post.likes_count - 1),
+          },
+        };
+      });
+      
+      // 更新搜索结果中的点赞状态
+      updateSearchPostsLikeStatus(queryClient, postId, isLiked);
+      console.log(`乐观更新完成，新的点赞状态: ${isLiked}`);
+
+      // 更新用户点赞列表
+      if (userId) {
+        console.log(`更新用户点赞列表，用户ID: ${userId}`);
+        queryClient.setQueryData<Post[]>(['userLikes', userId.toString()], (old) => {
+          if (!old) return old;
+          
+          // 如果是点赞操作，确保帖子在列表中
+          if (isLiked) {
+            // 查找帖子是否已在列表中
+            const existingPost = old.find(p => p.id === postId);
+            if (existingPost) {
+              // 更新已存在的帖子
+              return old.map(p => p.id === postId ? { ...p, islike: true } : p);
+            } else {
+              // 如果找到了帖子数据，添加到列表头部
+              if (postToUpdate) {
+                return [{ ...postToUpdate, islike: true }, ...old];
+              }
+            }
+          } 
+          // 如果是取消点赞操作，从列表中移除帖子
+          else {
+            return old.filter(p => p.id !== postId);
+          }
+          
+          return old;
+        });
+      }
+
+      return { 
+        previousPosts, 
+        previousPost, 
+        previousSearchPosts, 
+        previousUserLikes,
+        currentLikeState: isLiked 
+      };
+    },
+    onError: (err, _, context) => {
+      // 如果发生错误，回滚到快照
+      if (context?.previousPosts) {
+        queryClient.setQueryData(['posts'], context.previousPosts);
+      }
+      if (context?.previousPost) {
+        queryClient.setQueryData(['post', postId], context.previousPost);
+      }
+      if (context?.previousSearchPosts) {
+        queryClient.setQueryData(['search_posts_paginated'], context.previousSearchPosts);
+      }
+      
+      // 回滚用户点赞列表
+      const profile = queryClient.getQueryData<any>(['profile']);
+      const userId = profile?.id;
+      if (userId && context?.previousUserLikes) {
+        queryClient.setQueryData(['userLikes', userId.toString()], context.previousUserLikes);
+      }
     },
     onSettled: () => {
       // 无论成功或失败，都重新获取最新数据
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post', postId] });
       queryClient.invalidateQueries({ queryKey: ['search_posts_paginated'] });
+      
+      // 重新获取用户点赞列表
+      const profile = queryClient.getQueryData<any>(['profile']);
+      const userId = profile?.id;
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ['userLikes', userId.toString()] });
+      }
     },
   });
 };

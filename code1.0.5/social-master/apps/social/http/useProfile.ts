@@ -65,7 +65,8 @@ export const useUpdateProfile = () => {
       // 如果有文件，需要使用 FormData
       const formData = new FormData();
       formData.append('name', data.name);
-      if (data.bio) formData.append('bio', data.bio);
+      // 无论bio是否为空字符串，都添加到FormData中，确保可以清空bio
+      formData.append('bio', data.bio || '');
       if (data.avatar) formData.append('avatar', data.avatar);
 
       const response = await post<{ message: string; user: Profile }>(
@@ -136,8 +137,9 @@ export const useUserLikes = (userId: string | undefined) => {
 export const useSendFriendRequest = (userId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () => {
-      const response = await post(`/friends/${userId}/request/`);
+    mutationFn: async (message?: string) => {
+      const payload = message ? { message } : {};
+      const response = await post(`/friends/${userId}/request/`, payload);
       return response;
     },
     onSuccess: () => {

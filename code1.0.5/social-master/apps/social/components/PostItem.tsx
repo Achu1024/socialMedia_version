@@ -14,7 +14,7 @@ import { zhCN } from 'date-fns/locale';
 import { Flag, Heart, MessageSquare, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import Render from './Rich/Render';
@@ -33,6 +33,49 @@ import { Separator } from './ui/separator';
 import { Textarea } from './ui/textarea';
 import { useProfile } from '@/http/useAuth';
 
+// 自定义图片查看组件，支持预览和URL导航
+const CustomPhotoView = ({
+  src,
+  postId,
+  children,
+}: {
+  src: string;
+  postId: string;
+  children: React.ReactNode;
+}) => {
+  const router = useRouter();
+  
+  // 处理图片点击事件
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止冒泡，防止触发父级的点击事件
+  };
+
+  return (
+    <PhotoView 
+      src={src} 
+      overlay={
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+          <Button
+            variant="default"
+            size="sm"
+            className="bg-primary/80 text-white hover:bg-primary"
+            onClick={() => router.push(`/post/${postId}`)}
+          >
+            查看详情
+          </Button>
+        </div>
+      }
+    >
+      <div 
+        className="w-full h-full overflow-hidden"
+        onClick={handleImageClick}
+      >
+        {children}
+      </div>
+    </PhotoView>
+  );
+};
+
 export const PostItem = ({
   post,
   canDelete = false,
@@ -46,9 +89,59 @@ export const PostItem = ({
   const { mutate: deletePost } = useDeletePost(post.id);
   const [reportReason, setReportReason] = useState('');
   const { data: currentUser } = useProfile();
+  
+  // 添加本地状态跟踪点赞状态和数量
+  const [localLikeState, setLocalLikeState] = useState({
+    isLiked: post.islike,
+    count: post.likes_count
+  });
+  
+  // 防抖定时器
+  const likeDebounceTimer = useRef<NodeJS.Timeout | null>(null);
+  
+  // 同步本地状态与props
+  useEffect(() => {
+    setLocalLikeState({
+      isLiked: post.islike,
+      count: post.likes_count
+    });
+  }, [post.islike, post.likes_count]);
 
   // 检查是否为用户自己的帖子
   const isOwnPost = currentUser?.id === post.created_by.id;
+
+  // 调试信息
+  console.log(`Post ${post.id} islike: ${post.islike}`, post);
+  
+  // 处理点赞按钮点击，添加防抖
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    // 防止连续快速点击
+    if (likeDebounceTimer.current) {
+      clearTimeout(likeDebounceTimer.current);
+    }
+    
+    // 立即更新本地状态，提供即时反馈
+    const newIsLiked = !localLikeState.isLiked;
+    const newCount = newIsLiked 
+      ? localLikeState.count + 1 
+      : Math.max(0, localLikeState.count - 1);
+      
+    setLocalLikeState({
+      isLiked: newIsLiked,
+      count: newCount
+    });
+    
+    console.log("Like button clicked for post:", post.id);
+    console.log("Current like status before click:", post.islike);
+    console.log("New local state:", newIsLiked, newCount);
+    
+    // 添加300ms防抖延迟发送API请求
+    likeDebounceTimer.current = setTimeout(() => {
+      likePost();
+    }, 300);
+  };
 
   const handleReport = () => {
     if (!reportReason.trim()) {
@@ -120,24 +213,26 @@ export const PostItem = ({
                   e.stopPropagation();
                 }}
               >
-                <PhotoProvider>
+                <PhotoProvider
+                  maskOpacity={0.8}
+                  maskClassName="backdrop-blur-sm"
+                  loadingElement={<div className="flex justify-center items-center h-full">加载中...</div>}
+                >
                   {post.attachments.map((attachment) => {
                     return (
                       <div
                         key={attachment.id}
                         className='relative overflow-hidden bg-black/5 border border-border/40 flex items-center justify-center hover:border-primary/30 transition-colors aspect-square rounded-xl'
                       >
-                        <PhotoView src={attachment.get_image}>
-                          <div className="w-full h-full overflow-hidden">
-                            <Image
-                              width={200}
-                              height={200}
-                              src={attachment.get_image}
-                              alt='图片'
-                              className='hover:scale-105 transition-transform object-cover w-full h-full'
-                            />
-                          </div>
-                        </PhotoView>
+                        <CustomPhotoView src={attachment.get_image} postId={post.id}>
+                          <Image
+                            width={200}
+                            height={200}
+                            src={attachment.get_image}
+                            alt='图片'
+                            className='hover:scale-105 transition-transform object-cover w-full h-full'
+                          />
+                        </CustomPhotoView>
                       </div>
                     );
                   })}
@@ -163,18 +258,15 @@ export const PostItem = ({
                   size='sm'
                   className={cn(
                     'flex items-center gap-1 hover:text-pink-500 hover:bg-pink-500/10 transition-all duration-200 rounded-full hover:scale-105 active:scale-95',
-                    post.is_liked && 'text-pink-500'
+                    localLikeState.isLiked && 'text-red-500'
                   )}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    likePost();
-                  }}
+                  onClick={handleLikeClick}
                 >
                   <Heart
-                    className={cn('h-4 w-4', post.is_liked && 'fill-current')}
+                    className={cn('h-4 w-4', localLikeState.isLiked && 'fill-red-500 text-red-500')}
                   />
-                  <span className={cn(post.is_liked && 'text-pink-500')}>
-                    {post.likes_count || ''}
+                  <span className={cn(localLikeState.isLiked && 'text-red-500')}>
+                    {localLikeState.count || ''}
                   </span>
                 </Button>
                 {!isOwnPost && (

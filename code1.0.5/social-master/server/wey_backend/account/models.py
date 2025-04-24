@@ -77,9 +77,10 @@ class FriendshipRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_for = models.ForeignKey(User, related_name='received_friendshiprequests', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='created_friendshiprequests', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=SENT)
+    message = models.CharField(max_length=15, blank=True, null=True, help_text='好友请求附带的消息')
 
 
 class MibtTestResult(models.Model):

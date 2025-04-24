@@ -1,7 +1,7 @@
 import { useChatStore } from '@/store/chat';
 import { CozeAPI } from '@coze/api';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { flushSync } from 'react-dom';
 import { toast } from 'react-hot-toast';
 
@@ -58,13 +58,28 @@ export const extractExamples = (text: string): string[] => {
  * @returns AI流式聊天的mutation函数和状态以及流式响应处理函数
  */
 export const useAiChat = () => {
-  //   const queryClient = useQueryClient();
   const [streamResponse, setStreamResponse] = useState<string>('');
   const [exampleResponses, setExampleResponses] = useState<string[]>([]);
+  const [pendingThemes, setPendingThemes] = useState<string[]>([]);
   const { setThemeList } = useChatStore();
+  
+  // 使用useEffect处理待添加的主题，避免在循环中调用hooks
+  useEffect(() => {
+    // 处理收集到的主题
+    if (pendingThemes.length > 0) {
+      pendingThemes.forEach(theme => {
+        if (theme) setThemeList(theme);
+      });
+      // 清空待处理主题列表
+      setPendingThemes([]);
+    }
+  }, [pendingThemes, setThemeList]);
+  
   // 流式响应处理函数
   const handleStreamResponse = async (stream: any) => {
     let fullResponse = '';
+    const collectedThemes: string[] = [];
+    
     try {
       for await (const chunk of stream) {
         if (chunk && chunk.event) {
@@ -91,12 +106,14 @@ export const useAiChat = () => {
                     fullResponse += contentData.output;
                     // 立即更新流响应状态
                     flushSync(() => setStreamResponse(fullResponse));
-                    // 提取并更新示例响应
+                    // 提取并收集示例响应，但不立即调用setThemeList
                     const examples = extractExamples(fullResponse);
-                    examples.forEach((item) => {
-                      console.log(item);                    
-                      setThemeList(item);
+                    examples.forEach(item => {
+                      if (!collectedThemes.includes(item)) {
+                        collectedThemes.push(item);
+                      }
                     });
+                    
                     if (examples.length > 0) {
                       setExampleResponses(examples);
                     }
@@ -104,18 +121,17 @@ export const useAiChat = () => {
                     // 如果contentData直接是字符串
                     fullResponse += contentData;
                     flushSync(() => setStreamResponse(fullResponse));
-                    // 提取并更新示例响应
+                    // 提取并收集示例响应
                     const examples = extractExamples(fullResponse);
                     if (examples.length > 0) {
                       setExampleResponses(examples);
                     }
-                  } else if (contentData.theme) {
                   }
                 } catch (e) {
                   if (typeof data.content === 'string') {
                     fullResponse += data.content;
                     setStreamResponse(fullResponse);
-                    // 提取并更新示例响应
+                    // 提取并收集示例响应
                     const examples = extractExamples(fullResponse);
                     if (examples.length > 0) {
                       setExampleResponses(examples);
@@ -128,7 +144,7 @@ export const useAiChat = () => {
                 if (content) {
                   fullResponse += content;
                   setStreamResponse(fullResponse);
-                  // 提取并更新示例响应
+                  // 提取并收集示例响应
                   const examples = extractExamples(fullResponse);
                   if (examples.length > 0) {
                     setExampleResponses(examples);
@@ -141,7 +157,7 @@ export const useAiChat = () => {
               if (typeof chunk.data === 'string') {
                 fullResponse += chunk.data;
                 setStreamResponse(fullResponse);
-                // 提取并更新示例响应
+                // 提取并收集示例响应
                 const examples = extractExamples(fullResponse);
                 if (examples.length > 0) {
                   setExampleResponses(examples);
@@ -157,12 +173,18 @@ export const useAiChat = () => {
                   ? JSON.parse(chunk.data)
                   : chunk.data;
               if (dataObj && dataObj.debug_url) {
+                // 处理debug URL
               }
             } catch (e) {
               console.error('解析Done事件数据失败:', e);
             }
           }
         }
+      }
+
+      // 在流处理完成后一次性收集所有主题
+      if (collectedThemes.length > 0) {
+        setPendingThemes(collectedThemes);
       }
 
       // 最后一次确保提取到所有示例

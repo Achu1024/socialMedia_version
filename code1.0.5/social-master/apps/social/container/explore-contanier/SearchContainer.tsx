@@ -41,6 +41,39 @@ const UserCard = ({ user }: { user: any }) => {
   );
 };
 
+// 自定义图片查看组件，支持预览体验
+const EnhancedPhotoView = ({
+  src,
+  alt,
+  width,
+  height,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) => {
+  // 处理图片点击事件，防止冒泡
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  return (
+    <PhotoView src={src}>
+      <div className="w-full h-full overflow-hidden" onClick={handleImageClick}>
+        <Image
+          width={width}
+          height={height}
+          src={src}
+          alt={alt}
+          className='hover:scale-105 transition-transform object-cover w-full h-full'
+        />
+      </div>
+    </PhotoView>
+  );
+};
+
 // 帖子卡片组件
 const PostCard = ({ post }: { post: Post }) => {
   return (
@@ -79,23 +112,22 @@ const PostCard = ({ post }: { post: Post }) => {
                 )}
                 onClick={(e) => e.preventDefault()}
               >
-                <PhotoProvider>
+                <PhotoProvider
+                  maskOpacity={0.8}
+                  maskClassName="backdrop-blur-sm"
+                  loadingElement={<div className="flex justify-center items-center h-full">加载中...</div>}
+                >
                   {post.attachments.map((attachment) => (
                     <div
                       key={attachment.id}
                       className='relative overflow-hidden bg-black/5 border border-border/40 flex items-center justify-center hover:border-primary/30 transition-colors aspect-square rounded-xl'
                     >
-                      <PhotoView src={attachment.get_image}>
-                        <div className="w-full h-full overflow-hidden">
-                          <Image
-                            width={200}
-                            height={200}
-                            src={attachment.get_image}
-                            alt='图片'
-                            className='hover:scale-105 transition-transform object-cover w-full h-full'
-                          />
-                        </div>
-                      </PhotoView>
+                      <EnhancedPhotoView
+                        src={attachment.get_image}
+                        alt='图片'
+                        width={200}
+                        height={200}
+                      />
                     </div>
                   ))}
                 </PhotoProvider>

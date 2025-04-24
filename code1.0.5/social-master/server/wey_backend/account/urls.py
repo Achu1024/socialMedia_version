@@ -7,6 +7,8 @@ from . import admin_api
 urlpatterns = [
     path('me/', api.me, name='me'),
     path('signup/', api.signup, name='signup'),
+    path('send-email-code/', api.send_email_verification_code, name='send_email_verification_code'),
+    path('verify-email-code/', api.verify_email_code, name='verify_email_code'),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('editprofile/', api.editprofile, name='editprofile'),

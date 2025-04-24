@@ -16,6 +16,7 @@ import {
   Search,
   Settings,
   User,
+  Key
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -157,6 +158,12 @@ export const TopNavbar = () => {
                 <DropdownMenuItem className='cursor-pointer'>
                   <User className='mr-2 h-4 w-4' />
                   <span>个人资料</span>
+                </DropdownMenuItem>
+              </Link>
+              <Link href='/profile/edit'>
+                <DropdownMenuItem className='cursor-pointer'>
+                  <Key className='mr-2 h-4 w-4' />
+                  <span>修改密码</span>
                 </DropdownMenuItem>
               </Link>
 

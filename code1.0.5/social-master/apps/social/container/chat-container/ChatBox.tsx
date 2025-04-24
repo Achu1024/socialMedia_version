@@ -52,7 +52,7 @@ export const ChatBox = ({
   const [inputMessage, setInputMessage] = useState('');
   const [showExampleTabs, setShowExampleTabs] = useState(false);
   const [exampleTabContents, setExampleTabContents] = useState<string[]>([]);
-  console.log(themeList);
+
   const {
     mutate: aiChat,
     isPending: isAiChatLoading,
@@ -61,7 +61,6 @@ export const ChatBox = ({
     exampleResponses,
   } = useAiChat();
 
-  console.log(streamResponse);
   // 获取聊天历史
   const { data: chatHistory, isLoading: isLoadingHistory } = useChatHistory(
     conversation.id

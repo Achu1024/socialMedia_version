@@ -8,7 +8,12 @@ from .serializers import NotificationSerializer
 
 @api_view(['GET'])
 def notifications(request):
-    received_notifications = request.user.received_notifications.filter(is_read=False)
+    # 过滤掉自己发给自己的通知
+    received_notifications = request.user.received_notifications.filter(
+        is_read=False
+    ).exclude(
+        created_by=request.user  # 排除自己创建的通知
+    )
     serializer = NotificationSerializer(received_notifications, many=True)
 
     return JsonResponse(serializer.data, safe=False)
@@ -26,7 +31,12 @@ def read_notification(request, pk):
 @api_view(['POST'])
 def read_all_notifications(request):
     """将用户的所有未读通知标记为已读"""
-    notifications = Notification.objects.filter(created_for=request.user, is_read=False)
+    notifications = Notification.objects.filter(
+        created_for=request.user, 
+        is_read=False
+    ).exclude(
+        created_by=request.user  # 排除自己创建的通知
+    )
     count = notifications.count()
     
     # 批量更新为已读

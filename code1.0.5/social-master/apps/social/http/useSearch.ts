@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { post } from '@/lib/http';
 import { Post } from './usePost';
 import { useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface SearchUser {
   id: string;
@@ -65,5 +66,42 @@ export const useSearchPostsPaginated = () => {
     },
     initialPageParam: '1',
     getPreviousPageParam: (firstPage) => firstPage.previous,
+  });
+};
+
+/**
+ * ### 更新搜索结果中的点赞状态
+ * @param postId 帖子ID
+ * @param isLiked 是否点赞
+ */
+export const updateSearchPostsLikeStatus = (
+  queryClient: any,
+  postId: string,
+  isLiked: boolean
+) => {
+  type SearchPostsData = {
+    pages: SearchPostsPaginatedResponse[];
+    pageParams: unknown[];
+  };
+
+  queryClient.setQueryData(['search_posts_paginated', ''], (old: SearchPostsData | undefined) => {
+    if (!old) return old;
+    
+    return {
+      ...old,
+      pages: old.pages.map((page: SearchPostsPaginatedResponse) => ({
+        ...page,
+        results: page.results.map((post: Post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              islike: isLiked,
+              likes_count: isLiked ? post.likes_count + 1 : post.likes_count - 1,
+            };
+          }
+          return post;
+        }),
+      })),
+    };
   });
 };

@@ -63,7 +63,7 @@ export const ConversationList = ({
     <div className='flex flex-col h-full'>
       {/* 头部 */}
       <div className='p-4 border-b sticky top-0 bg-white z-10 flex justify-between items-center'>
-        <span className='font-medium text-lg'>我的会话</span>
+        <span className='font-medium text-lg'>好友列表</span>
         {/* 好友申请按钮（弹窗） */}
         <FriendRequestsDialog
           requests={friendsData?.requests || []}

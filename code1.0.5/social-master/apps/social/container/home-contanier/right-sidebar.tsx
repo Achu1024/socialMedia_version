@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { useProfile } from '@/http/useAuth';
 
 // 需要显示右侧栏的页面
 const SHOWN_SIDEBAR_PATHS = [
@@ -29,38 +31,67 @@ export const RightSidebar = () => {
   const router = useRouter();
   const query = searchParams.get('query');
   const isShown = SHOWN_SIDEBAR_PATHS.includes(pathname.split('/')[1]);
+  // 获取当前用户信息
+  const { data: currentUser } = useProfile();
   // 好友推荐
   const { data: suggestedUsers, isLoading: isSuggestedLoading } = useFriendSuggestions();
-  // 热门用户（点赞最多）
+  // 热门用户
   const { data: popularUsers, isLoading: isPopularLoading } = usePopularUsers();
   // 话题列表
   const { data: trendPosts, isLoading: isTrendLoading } = getTrend();
   
-  // 存储实际显示的用户推荐
-  const [displayUsers, setDisplayUsers] = useState<User[]>([]);
+  // 存储处理后的推荐用户
+  const [displayUsers, setDisplayUsers] = useState<(User & { source: 'suggested' | 'popular' })[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
 
   // 在数据加载后处理推荐用户
   useEffect(() => {
-    if (!isSuggestedLoading && !isPopularLoading) {
+    if (!isSuggestedLoading && !isPopularLoading && currentUser) {
       setIsLoadingUsers(false);
       
-      // 如果有正常的好友推荐，使用好友推荐
+      let result: (User & { source: 'suggested' | 'popular' })[] = [];
+      
+      // 添加算法推荐的用户，标记为 suggested
       if (suggestedUsers && suggestedUsers.length > 0) {
-        setDisplayUsers(suggestedUsers.slice(0, 5));
-      } 
-      // 否则从热门用户中随机选择5个
-      else if (popularUsers && popularUsers.length > 0) {
-        // 随机选择5个热门用户
-        const randomUsers = [...popularUsers]
-          .sort(() => 0.5 - Math.random()) // 随机排序
-          .slice(0, 5); // 取前5个
-        setDisplayUsers(randomUsers);
-      } else {
-        setDisplayUsers([]);
+        result = suggestedUsers
+          .filter(user => user.id !== currentUser.id)
+          .slice(0, 5)
+          .map(user => ({
+            ...user,
+            source: 'suggested'
+          }));
       }
+      
+      // 如果没有算法推荐，或推荐数量不足5个，从热门用户中随机补充
+      if (result.length < 5 && popularUsers && popularUsers.length > 0) {
+        const usedIds = new Set(result.map(u => u.id));
+        const availablePopular = popularUsers.filter((user: User) => 
+          !usedIds.has(user.id) && user.id !== currentUser.id
+        );
+        
+        if (availablePopular.length > 0) {
+          // 随机选择热门用户
+          const neededCount = 5 - result.length;
+          const randomPopular = [...availablePopular]
+            .sort(() => 0.5 - Math.random()) // 随机排序
+            .slice(0, neededCount)
+            .map(user => ({
+              ...user,
+              source: 'popular' as const
+            }));
+          
+          result = [...result, ...randomPopular];
+        }
+      }
+      
+      // 打印调试信息
+      console.log('建议的用户:', suggestedUsers);
+      console.log('热门用户:', popularUsers);
+      console.log('最终显示用户:', result);
+      
+      setDisplayUsers(result);
     }
-  }, [suggestedUsers, popularUsers, isSuggestedLoading, isPopularLoading]);
+  }, [suggestedUsers, popularUsers, isSuggestedLoading, isPopularLoading, currentUser]);
 
   const queryClient = useQueryClient();
 
@@ -109,12 +140,20 @@ export const RightSidebar = () => {
                       </Avatar>
                     </Link>
                     <div className='flex-1'>
+                      <div className="flex items-center justify-between">
                       <Link
                         href={`/profile/${user.id}`}
                         className='font-medium group-hover:text-primary transition-colors text-xs'
                       >
                         {user.name}
                       </Link>
+                        <Badge 
+                          variant={user.source === 'suggested' ? 'default' : 'outline'} 
+                          className="py-0 h-4 text-[10px]"
+                        >
+                          {user.source === 'suggested' ? '可能认识' : '热门用户'}
+                        </Badge>
+                      </div>
                       <div className='text-muted-foreground text-xs'>
                         帖子数 {user.posts_count}
                       </div>

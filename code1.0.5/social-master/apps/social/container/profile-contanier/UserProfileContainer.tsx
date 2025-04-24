@@ -33,6 +33,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 // // 帖子项组件
 // const PostItem = ({ post }: { post: Post }) => {
@@ -119,6 +120,8 @@ export const UserProfileContainer = () => {
   const removeFriend = useRemoveFriend(userId);
   const userLikes = useUserLikes(userId);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [friendRequestMessage, setFriendRequestMessage] = useState('');
+  const [messageDialogOpen, setMessageDialogOpen] = useState(false);
 
   // 创建或获取聊天会话
   const { mutate: createOrGetConversation, isPending: isCreatingChat } =
@@ -144,6 +147,13 @@ export const UserProfileContainer = () => {
   const handleRemoveFriend = () => {
     removeFriend.mutate();
     setConfirmDialogOpen(false);
+  };
+
+  // 处理发送好友请求
+  const handleSendFriendRequest = () => {
+    sendFriendRequest.mutate(friendRequestMessage);
+    setMessageDialogOpen(false);
+    setFriendRequestMessage('');
   };
 
   if (isLoading) {
@@ -190,19 +200,55 @@ export const UserProfileContainer = () => {
           </div>
           <div className='flex gap-2'>
             {can_send_friendship_request ? (
-              <Button
-                size='sm'
-                className='rounded-full'
-                onClick={() => sendFriendRequest.mutate()}
-                disabled={sendFriendRequest.isPending}
-              >
-                {sendFriendRequest.isPending ? (
-                  <Loader2 className='h-4 w-4 animate-spin mr-2' />
-                ) : (
-                  <UserPlus className='h-4 w-4 mr-2' />
-                )}
-                添加好友
-              </Button>
+              <Dialog open={messageDialogOpen} onOpenChange={setMessageDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    size='sm'
+                    className='rounded-full'
+                    disabled={sendFriendRequest.isPending}
+                  >
+                    {sendFriendRequest.isPending ? (
+                      <Loader2 className='h-4 w-4 animate-spin mr-2' />
+                    ) : (
+                      <UserPlus className='h-4 w-4 mr-2' />
+                    )}
+                    添加好友
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className='sm:max-w-md'>
+                  <DialogHeader>
+                    <DialogTitle>发送好友请求</DialogTitle>
+                    <DialogDescription>
+                      给{user.name}发送一条好友请求，可以附带一条不超过15个字的消息。
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className='mt-4'>
+                    <Input 
+                      maxLength={15}
+                      placeholder='添加好友留言（不超过15字）'
+                      value={friendRequestMessage}
+                      onChange={(e) => setFriendRequestMessage(e.target.value)}
+                    />
+                    <div className='text-right text-xs text-muted-foreground mt-1'>
+                      {friendRequestMessage.length}/15
+                    </div>
+                  </div>
+                  <DialogFooter className='mt-4'>
+                    <Button 
+                      variant='outline' 
+                      onClick={() => setMessageDialogOpen(false)}
+                    >
+                      取消
+                    </Button>
+                    <Button 
+                      onClick={handleSendFriendRequest}
+                      disabled={sendFriendRequest.isPending}
+                    >
+                      发送请求
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             ) : is_friend ? (
               <div className='flex gap-2'>
                 <Button

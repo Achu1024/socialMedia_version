@@ -97,6 +97,11 @@ export const FriendRequestsDialog = ({
                       <p className='text-xs text-muted-foreground'>
                         {request.created_by.email}
                       </p>
+                      {request.message && (
+                        <p className='text-sm mt-1 italic'>
+                          "{request.message}"
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className='flex space-x-2'>

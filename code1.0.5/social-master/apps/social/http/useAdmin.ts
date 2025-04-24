@@ -84,6 +84,7 @@ export interface Post {
   attachments: PostAttachment[];
   islike: boolean;
   reports_count?: number;
+  comments?: Comment[];
 }
 
 export interface Comment {
@@ -843,5 +844,29 @@ export const useAdminCreateTrend = () => {
       // 同时刷新热门话题列表，确保首页右侧边栏能显示最新添加的话题
       queryClient.invalidateQueries({ queryKey: ['trend'] });
     },
+  });
+};
+
+/**
+ * ### 管理员删除评论
+ * @param postId 帖子ID
+ * @param commentId 评论ID
+ * @returns 删除评论的mutation
+ */
+export const useAdminDeleteComment = (postId: string, commentId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const response = await del(
+        `/posts/admin/posts/${postId}/comments/${commentId}/delete/`
+      );
+      return response;
+    },
+    onSuccess: () => {
+      // 删除成功后刷新帖子详情
+      queryClient.invalidateQueries({ queryKey: ['admin', 'post', postId] });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'posts'] });
+    }
   });
 };

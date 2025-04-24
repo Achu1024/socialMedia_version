@@ -20,7 +20,19 @@ WEBSITE_URL = 'http://127.0.0.1:8000'
 
 # Application definition
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# 邮件发送设置
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # 开发环境使用控制台输出邮件
+
+# 使用网易163邮箱发送邮件
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True  # 网易邮箱使用SSL而不是TLS
+EMAIL_HOST_USER = 'hotdogsaredogstoo@163.com'  # 替换为您的实际邮箱
+EMAIL_HOST_PASSWORD = 'QS5Q2LctgvDehnWf'  # 注意：这里填写授权码，不是登录密码
+
+# 默认发件人
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 AUTH_USER_MODEL = 'account.User'
 

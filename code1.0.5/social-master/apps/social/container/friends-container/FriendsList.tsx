@@ -50,7 +50,6 @@ export const FriendsList = ({ friends, isLoading }: FriendsListProps) => {
             <Link
               href={`/messages/${friend.id}`}
               className='p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full'
-              title='发送消息'
             >
               <MessageSquare className='h-5 w-5' />
             </Link>

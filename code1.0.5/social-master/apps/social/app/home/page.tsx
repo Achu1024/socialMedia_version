@@ -25,6 +25,64 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
+// 自定义图片预览组件
+const CustomPreviewImage = ({
+  src,
+  alt,
+  width,
+  height,
+  onRemove,
+  index,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  onRemove?: (index: number) => void;
+  index: number;
+}) => {
+  // 处理图片点击事件
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止冒泡，防止触发父级的点击事件
+  };
+
+  return (
+    <div className="relative">
+      <PhotoProvider
+        maskOpacity={0.8}
+        maskClassName="backdrop-blur-sm"
+        loadingElement={<div className="flex justify-center items-center h-full">加载中...</div>}
+      >
+        <PhotoView 
+          src={src} 
+        >
+          <div className="w-full h-full overflow-hidden" onClick={handleImageClick}>
+            <Image
+              src={src}
+              width={width}
+              height={height}
+              alt={alt}
+              className='cursor-pointer object-cover w-full h-full hover:scale-105 transition-transform'
+            />
+          </div>
+        </PhotoView>
+      </PhotoProvider>
+      
+      {onRemove && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(index);
+          }}
+          className='absolute cursor-pointer top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 z-10 transition-colors'
+        >
+          <X className='h-4 w-4' />
+        </button>
+      )}
+    </div>
+  );
+};
+
 // 图片处理相关配置
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_IMAGE_COUNT = 9; // 最多上传9张图片
@@ -210,7 +268,6 @@ const HomePage = () => {
     }
 
     setIsProcessing(true);
-
     try {
       const newImages: File[] = [];
       const newPreviewUrls: string[] = [];
@@ -218,7 +275,6 @@ const HomePage = () => {
       // 处理每一个文件
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-
         // 文件类型检查
         if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
           toast.error(
@@ -226,7 +282,6 @@ const HomePage = () => {
           );
           continue;
         }
-
         // 文件大小检查
         if (file.size > MAX_FILE_SIZE) {
           toast(`图片 ${file.name} 较大，正在压缩...`);
@@ -362,25 +417,14 @@ const HomePage = () => {
                         className='relative bg-black/5 border border-border/40 rounded-xl flex items-center justify-center overflow-hidden hover:border-primary/50 transition-colors aspect-square'
                         key={index}
                       >
-                        <PhotoProvider>
-                          <PhotoView src={url}>
-                            <div className="w-full h-full overflow-hidden">
-                              <Image
-                                src={url}
-                                width={200}
-                                height={200}
-                                alt='上传预览'
-                                className='cursor-pointer object-cover w-full h-full hover:scale-105 transition-transform'
-                              />
-                            </div>
-                          </PhotoView>
-                        </PhotoProvider>
-                        <button
-                          onClick={() => removeImage(index)}
-                          className='absolute cursor-pointer top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 z-10 transition-colors'
-                        >
-                          <X className='h-4 w-4' />
-                        </button>
+                        <CustomPreviewImage
+                          src={url}
+                          alt='上传预览'
+                          width={200}
+                          height={200}
+                          onRemove={removeImage}
+                          index={index}
+                        />
                       </div>
                     ))}
                   </div>

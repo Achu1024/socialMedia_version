@@ -4,6 +4,12 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.db.models import Count
+import json
+import random
+import string
+from datetime import timedelta
+from django.utils import timezone
+from django.core.cache import cache
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -43,11 +49,99 @@ def me(request):
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
+def send_email_verification_code(request):
+    """
+    发送邮箱验证码
+    """
+    data = request.data
+    email = data.get('email')
+    
+    if not email:
+        return JsonResponse({'success': False, 'message': '请提供邮箱地址'})
+    
+    # 检查邮箱是否已注册
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'success': False, 'message': '该邮箱已被注册'})
+    
+    # 生成6位随机验证码
+    verification_code = ''.join(random.choices(string.digits, k=6))
+    
+    # 将验证码保存到缓存中，有效期10分钟
+    cache_key = f"email_verification_{email}"
+    cache.set(cache_key, verification_code, 60 * 10)  # 10分钟有效期
+    
+    try:
+        # 发送验证码邮件
+        subject = '【社交平台】邮箱验证码'
+        message = f'您的验证码是：{verification_code}，有效期10分钟，请勿泄露给他人。'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+        
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        
+        return JsonResponse({
+            'success': True, 
+            'message': '验证码已发送，请查收邮件'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': f'发送验证码失败: {str(e)}'
+        })
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def verify_email_code(request):
+    """
+    验证邮箱验证码
+    """
+    data = request.data
+    email = data.get('email')
+    code = data.get('code')
+    
+    if not email or not code:
+        return JsonResponse({'success': False, 'message': '请提供邮箱和验证码'})
+    
+    # 从缓存中获取验证码
+    cache_key = f"email_verification_{email}"
+    stored_code = cache.get(cache_key)
+    
+    if not stored_code:
+        return JsonResponse({'success': False, 'message': '验证码已过期，请重新获取'})
+    
+    if stored_code != code:
+        return JsonResponse({'success': False, 'message': '验证码错误'})
+    
+    # 验证通过，删除缓存中的验证码
+    cache.delete(cache_key)
+    
+    return JsonResponse({
+        'success': True,
+        'message': '验证码验证成功',
+        'verified': True
+    })
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def signup(request):
     data = request.data
+    
+    # 增加验证码校验逻辑
+    email = data.get('email')
+    is_verified = data.get('is_verified')
+    
+    # 如果没有通过验证，拒绝注册
+    if not is_verified:
+        return JsonResponse({'message': '请先验证邮箱', 'error': 'email_not_verified'}, status=400)
+    
+    # 检查邮箱是否已注册
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'message': '该邮箱已被注册', 'error': 'email_exists'}, status=400)
 
     form = SignupForm({
-        'email': data.get('email'),
+        'email': email,
         'name': data.get('name'),
         'password1': data.get('password1'),
         'password2': data.get('password2'),
@@ -152,6 +246,12 @@ def editpassword(request):
 def send_friendship_request(request, pk):
     user = User.objects.get(pk=pk)
 
+    # 获取消息内容
+    message = request.data.get('message', '')
+    # 限制消息长度为15个字符
+    if len(message) > 15:
+        message = message[:15]
+
     # 检查是否已经是好友
     if request.user.friends.filter(id=user.id).exists():
         return JsonResponse({'message': 'already friends'})
@@ -161,7 +261,11 @@ def send_friendship_request(request, pk):
     check2 = FriendshipRequest.objects.filter(created_for=user, created_by=request.user, status=FriendshipRequest.SENT)
 
     if not check1.exists() and not check2.exists():
-        friendrequest = FriendshipRequest.objects.create(created_for=user, created_by=request.user)
+        friendrequest = FriendshipRequest.objects.create(
+            created_for=user, 
+            created_by=request.user,
+            message=message
+        )
         notification = create_notification(request, 'new_friendrequest', friendrequest_id=friendrequest.id)
         return JsonResponse({'message': 'friendship request created'})
     else:
