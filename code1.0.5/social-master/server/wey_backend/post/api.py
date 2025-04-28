@@ -105,6 +105,10 @@ def post_list_liked(request, id):
     # 检查是否为本人
     is_self = request.user.id == user.id
     
+    # 如果不是本人查看，且用户设置了不向其他人显示点赞内容，则返回空列表
+    if not is_self and not user.show_likes_to_others:
+        return JsonResponse([], safe=False)
+    
     # 获取用户点赞的所有帖子
     likes = Like.objects.filter(created_by=user)
     post_ids = []

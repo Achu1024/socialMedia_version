@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'friends_count', 'posts_count', 'get_avatar', 'bio', 'mbti_result', 'is_admin', 'is_active', 'date_joined')
+        fields = ('id', 'name', 'email', 'friends_count', 'posts_count', 'get_avatar', 'bio', 'mbti_result', 'is_admin', 'is_active', 'date_joined', 'show_likes_to_others')
     
     def get_mbti_result(self, obj):
         try:

@@ -122,7 +122,7 @@ def admin_create_user(request):
 @api_view(['PUT'])
 @permission_classes([IsAdminPermission])
 def admin_update_user(request, user_id):
-    """更新用户信息，仅限管理员访问"""
+
     user = get_object_or_404(User, id=user_id)
     data = request.data
     
@@ -134,13 +134,10 @@ def admin_update_user(request, user_id):
                 'message': '该邮箱已被注册'
             }, status=400)
         user.email = data['email']
-    
     if 'name' in data:
         user.name = data['name']
-        
     if 'bio' in data:
         user.bio = data['bio']
-        
     if 'is_active' in data:
         # 不允许禁用管理员账号
         if user.is_admin and not data['is_active']:
@@ -150,15 +147,8 @@ def admin_update_user(request, user_id):
             }, status=400)
         user.is_active = data['is_active']
         
-    if 'is_staff' in data:
-        user.is_staff = data['is_staff']
-        
-    if 'is_superuser' in data:
-        user.is_superuser = data['is_superuser']
-        
     if 'is_admin' in data:
         user.is_admin = data['is_admin']
-    
     # 如果提供了新密码，则更新密码
     if 'password' in data and data['password']:
         user.password = make_password(data['password'])

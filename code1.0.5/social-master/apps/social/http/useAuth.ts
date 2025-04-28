@@ -41,6 +41,7 @@ interface Profile {
   bio?: string;
   mbti_result: MBTIResult | null;
   is_admin?: boolean;
+  show_likes_to_others: boolean;
 }
 
 /**

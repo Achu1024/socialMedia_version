@@ -91,7 +91,7 @@ export const useAiChat = () => {
                   ? JSON.parse(chunk.data)
                   : chunk.data;
 
-              // 处理data.content (可能是字符串形式的JSON或直接是字符串)
+              // 处理data.content
               if (data.content) {
                 try {
                   // 尝试解析为JSON

@@ -18,6 +18,7 @@ export interface UserProfile {
   get_avatar: string;
   bio?: string;
   mbti_result: MBTIResult | null;
+  show_likes_to_others: boolean;
 }
 
 export interface Profile {
@@ -27,12 +28,14 @@ export interface Profile {
   mbti_result: MBTIResult | null;
   avatar?: string;
   bio?: string;
+  show_likes_to_others: boolean;
 }
 
 interface UpdateProfileData {
   name: string;
   bio?: string;
   avatar?: File;
+  show_likes_to_others?: boolean;
 }
 
 interface ChangePasswordData {
@@ -59,7 +62,6 @@ export const useProfile = () => {
  */
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async (data: UpdateProfileData) => {
       // 如果有文件，需要使用 FormData
@@ -68,7 +70,10 @@ export const useUpdateProfile = () => {
       // 无论bio是否为空字符串，都添加到FormData中，确保可以清空bio
       formData.append('bio', data.bio || '');
       if (data.avatar) formData.append('avatar', data.avatar);
-
+      // 如果提供了show_likes_to_others，添加到FormData
+      if (data.show_likes_to_others !== undefined) {
+        formData.append('show_likes_to_others', data.show_likes_to_others.toString());
+      }
       const response = await post<{ message: string; user: Profile }>(
         '/editprofile/',
         formData,

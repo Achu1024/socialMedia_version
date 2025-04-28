@@ -36,6 +36,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { put } from '@/lib/http';
 import { useRouter } from 'next/navigation';
+import { Switch } from '@/components/ui/switch';
 
 export { ProfileEditForm } from './ProfileEditForm';
 
@@ -54,12 +55,14 @@ export const ProfileContainer = () => {
   const [editedBio, setEditedBio] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showLikesToOthers, setShowLikesToOthers] = useState(true);
 
   // 初始化编辑数据
   useEffect(() => {
     if (profile) {
       setEditedName(profile.name);
       setEditedBio(profile.bio || "");
+      setShowLikesToOthers(profile.show_likes_to_others);
     }
   }, [profile]);
 
@@ -131,6 +134,26 @@ export const ProfileContainer = () => {
         }
       }
     );
+  };
+
+  // 处理隐私设置更新
+  const handleUpdatePrivacySettings = async (showLikes: boolean) => {
+    if (!profile) return;
+
+    setShowLikesToOthers(showLikes);
+    
+    try {
+      await updateProfile.mutateAsync({
+        name: profile.name,
+        bio: profile.bio,
+        show_likes_to_others: showLikes
+      });
+      toast.success("隐私设置已更新");
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+    } catch (error) {
+      toast.error("设置更新失败，请稍后重试");
+      setShowLikesToOthers(!showLikes); // 恢复原来的状态
+    }
   };
 
   if (isLoading) return <>加载中...</>;
@@ -257,7 +280,7 @@ export const ProfileContainer = () => {
           <textarea
             value={editedBio}
             onChange={(e) => setEditedBio(e.target.value)}
-            className="text-foreground/90 mb-6 w-full h-24 bg-transparent border border-gray-300 rounded-md p-2 focus:outline-none focus:border-primary"
+            className="text-foreground/90 w-full h-24 bg-transparent border border-gray-300 rounded-md p-2 focus:outline-none focus:border-primary"
             placeholder="这位用户很懒，还没有填写个人简介"
           />
         ) : (
@@ -266,6 +289,37 @@ export const ProfileContainer = () => {
           </p>
         )}
 
+        {/* 隐私设置卡片 - 仅在查看自己主页且处于编辑模式时显示 */}
+        {!userId && profile && editMode && (
+          <div className='  flex flex-row items-center justify-between m-4'>
+            <div className='flex items-center justify-between'>
+                  <div>
+                    <h3 className='text-sm font-medium'>向其他用户显示我点赞过的帖子</h3>
+                    {/* <p className='text-xs text-muted-foreground mt-1'>
+                      关闭后，其他用户访问你的主页将无法看到你点赞过的帖子
+                    </p> */}
+                  </div>
+                  <Switch
+                    checked={showLikesToOthers}
+                    onCheckedChange={handleUpdatePrivacySettings}
+                    disabled={updateProfile.isPending}
+                  />
+                </div>
+            {/* <Card className='w-[400px] mb-6'> */}
+              {/* <CardHeader className='flex flex-row items-center justify-between'> */}
+                <div>
+                  {/* <CardTitle>隐私设置</CardTitle> */}
+                  {/* <CardDescription>控制谁可以看到你的内容</CardDescription> */}
+                  {/* <Lock className='h-5 w-5 text-muted-foreground' /> */}
+                </div>
+               
+              {/* </CardHeader> */}
+              {/* <CardContent> */}
+                
+              {/* </CardContent>
+            </Card> */}
+          </div>
+        )}
         {/* MBTI测试结果 */}
         {profile.mbti_result ? (
           <Accordion
@@ -445,6 +499,7 @@ export const ProfileContainer = () => {
             </CardContent>
           </Card>
         )}
+
       </div>
       {/* 帖子和我的点赞 */}
       <div className='mt-8 px-4 sm:px-8'>

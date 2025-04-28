@@ -42,6 +42,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     people_you_may_know = models.ManyToManyField('self')
 
     posts_count = models.IntegerField(default=0)
+    
+    # 控制是否向其他用户显示点赞内容
+    show_likes_to_others = models.BooleanField(default=True, verbose_name='向其他用户显示点赞内容')
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)

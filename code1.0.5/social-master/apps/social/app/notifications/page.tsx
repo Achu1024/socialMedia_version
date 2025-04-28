@@ -6,7 +6,8 @@ import { NotificationsContainer } from '@/container/notifications-container/Noti
 import { useReadAllNotifications } from '@/http/useNotification';
 import { Check } from 'lucide-react';
 
-const NotificationsPage = () => {
+// 定义基础组件
+const NotificationsPageBase = () => {
   const { mutate: markAllAsRead, isPending } = useReadAllNotifications();
   
   // 处理一键已读
@@ -37,5 +38,8 @@ const NotificationsPage = () => {
   );
 };
 
-// 使用 withAuth 高阶组件包装页面组件
-export default withAuth(NotificationsPage);
+// 先创建组件，然后再用高阶组件包装
+const NotificationsPage = withAuth(NotificationsPageBase);
+
+// 导出包装后的组件
+export default NotificationsPage;

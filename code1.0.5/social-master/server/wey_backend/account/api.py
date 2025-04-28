@@ -43,6 +43,7 @@ def me(request):
         'bio': user.bio,
         'mbti_result': mibt_data,
         'is_admin': user.is_admin,
+        'show_likes_to_others': user.show_likes_to_others,
     })
 
 
@@ -204,19 +205,22 @@ def editprofile(request):
     name = request.data.get('name')
     bio = request.data.get('bio')
     avatar = request.FILES.get('avatar')  # 从请求文件中获取头像
-
+    show_likes_to_others = request.data.get('show_likes_to_others')
     if not name:
         return JsonResponse({'message': '用户名不能为空'})
-
     # 更新用户信息
     user.name = name
     if bio is not None:  # 允许清空bio
         user.bio = bio
     if avatar:
         user.avatar = avatar
-
+    # 处理点赞内容显示设置
+    if show_likes_to_others is not None:
+        # 转换字符串为布尔值
+        user.show_likes_to_others = show_likes_to_others.lower() in ['true', '1', 't', 'y', 'yes']
     user.save()
     
+    # 更新返回的用户数据，添加show_likes_to_others字段
     return JsonResponse({
         'message': '个人资料更新成功',
         'user': {
@@ -225,6 +229,7 @@ def editprofile(request):
             'email': user.email,
             'avatar': user.get_avatar(),
             'bio': user.bio,
+            'show_likes_to_others': user.show_likes_to_others,
         }
     })
 
